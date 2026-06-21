@@ -1,0 +1,198 @@
+<h2>选一个卡通风格方向</h2>
+<p class="subtitle">三种方向,都展示了「手机首页」的样子。点一个你喜欢的,然后在终端告诉我。也可以告诉我「想要 A 的配色 + B 的简洁」这类混搭。</p>
+
+<style>
+  .style-cards{ grid-template-columns: repeat(3, 1fr); max-width: 1000px; margin: 0 auto 1rem; align-items:start; }
+  @media (max-width: 820px){ .style-cards{ grid-template-columns: 1fr; } }
+  .style-cards .card{ padding:0; }
+  .style-cards .card-image{ aspect-ratio:auto; background:transparent; padding:20px 14px 6px; display:flex; justify-content:center; }
+  .style-cards .card-body{ text-align:center; }
+
+  .phone{ width:214px; border-radius:32px; padding:7px; background:var(--p-frame); box-shadow:0 12px 28px rgba(0,0,0,.14); }
+  .screen{ border-radius:26px; padding:13px 12px 14px; background:var(--p-bg); color:var(--p-ink); display:flex; flex-direction:column; gap:10px; min-height:392px; }
+  .ph-top{ display:flex; align-items:center; gap:8px; }
+  .ph-avatar{ width:30px; height:30px; border-radius:50%; background:var(--p-card); display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:var(--p-soft); }
+  .ph-name{ font-size:12.5px; font-weight:800; }
+  .ph-sub{ font-size:9px; color:var(--p-muted); font-weight:600; }
+  .ph-chev{ margin-left:auto; color:var(--p-muted); font-size:11px; background:var(--p-card); width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:var(--p-soft); }
+  .ph-hero{ background:var(--p-card); border-radius:18px; padding:11px 12px; display:flex; align-items:center; gap:10px; box-shadow:var(--p-soft); }
+  .ph-mascot{ font-size:34px; line-height:1; }
+  .ph-hero .greet{ font-size:10px; color:var(--p-muted); line-height:1.45; }
+  .ph-hero .greet b{ display:block; font-size:13px; color:var(--p-ink); font-weight:800; }
+  .ph-stats{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .ph-stat{ background:var(--p-card); border-radius:14px; padding:9px 10px; box-shadow:var(--p-soft); }
+  .ph-stat .lab{ font-size:9.5px; color:var(--p-muted); font-weight:600; }
+  .ph-stat .val{ font-size:18px; font-weight:800; color:var(--p-ink); margin-top:1px; }
+  .ph-stat .val .u{ font-size:10px; font-weight:700; color:var(--p-muted); margin-left:1px; }
+  .ph-stat .delta{ font-size:9px; color:var(--p-up); font-weight:700; margin-top:2px; }
+  .ph-curve{ background:var(--p-card); border-radius:14px; padding:8px 9px 4px; box-shadow:var(--p-soft); }
+  .ph-curve .ttl{ font-size:9.5px; color:var(--p-muted); font-weight:600; display:flex; justify-content:space-between; }
+  .ph-curve .ttl b{ color:var(--p-primary); }
+  .ph-curve svg{ display:block; width:100%; height:54px; margin-top:2px; }
+  .ph-fab{ margin-top:auto; background:var(--p-primary); color:#fff; border:none; border-radius:16px; padding:11px; font-size:13px; font-weight:800; box-shadow:var(--p-soft); letter-spacing:.5px; }
+
+  .phone.warm{ --p-frame:#F0C089; --p-bg:#FFF7EC; --p-card:#FFFFFF; --p-ink:#5B3A1F; --p-muted:#B98E6A; --p-primary:#FF8A3D; --p-up:#3FAE6A; --p-soft:0 4px 10px rgba(255,138,61,.16); }
+  .phone.mint{ --p-frame:#B6E0D6; --p-bg:#F1F8F6; --p-card:#FFFFFF; --p-ink:#173128; --p-muted:#7C9C94; --p-primary:#21A99B; --p-up:#2EA881; --p-soft:0 4px 10px rgba(33,169,155,.12); }
+  .phone.rainbow{ --p-frame:#C7B8FF; --p-bg:linear-gradient(170deg,#FBF0FF 0%, #F2F7FF 55%, #FFF6E6 100%); --p-card:#FFFFFF; --p-ink:#3A2A5C; --p-muted:#9A86C0; --p-primary:#7C5CFF; --p-up:#FF7AA8; --p-soft:0 4px 10px rgba(124,92,255,.20); }
+  .phone.rainbow .ph-fab{ background:linear-gradient(95deg,#7C5CFF,#FF7AA8); }
+  .phone.rainbow .ph-avatar{ background:#FFF; }
+</style>
+
+<div class="cards style-cards">
+
+  <div class="card" data-choice="warm" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="phone warm">
+        <div class="screen">
+          <div class="ph-top">
+            <div class="ph-avatar">🧒</div>
+            <div>
+              <div class="ph-name">豆豆</div>
+              <div class="ph-sub">5 岁 2 个月</div>
+            </div>
+            <div class="ph-chev">▾</div>
+          </div>
+          <div class="ph-hero">
+            <div class="ph-mascot">🦒</div>
+            <div class="greet">本月长高了<br><b>0.6 cm · 棒棒哒</b></div>
+          </div>
+          <div class="ph-stats">
+            <div class="ph-stat">
+              <div class="lab">身高</div>
+              <div class="val">115.2<span class="u">cm</span></div>
+              <div class="delta">▲ 超过 68% 同龄</div>
+            </div>
+            <div class="ph-stat">
+              <div class="lab">体重</div>
+              <div class="val">21.5<span class="u">kg</span></div>
+              <div class="delta">▲ +0.3 本月</div>
+            </div>
+          </div>
+          <div class="ph-curve">
+            <div class="ttl"><span>身高曲线</span><b>P68</b></div>
+            <svg viewBox="0 0 120 40" preserveAspectRatio="none">
+              <path d="M0,34 C18,32 32,26 52,22 S92,10 120,5" style="fill:none;stroke:var(--p-primary);stroke-width:2.4;stroke-linecap:round"/>
+              <path d="M0,34 C18,32 32,26 52,22 S92,10 120,5 L120,40 L0,40 Z" style="fill:var(--p-primary);opacity:.13"/>
+              <circle cx="120" cy="5" r="2.6" style="fill:var(--p-primary)"/>
+            </svg>
+          </div>
+          <button class="ph-fab">＋ 记一笔</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · 暖阳长颈鹿 🦒</h3>
+      <p>奶油暖橘 + 圆润卡片。长颈鹿吉祥物会「跟着孩子一起长高」,最贴合「长高」主题,亲和力最强。给小朋友看的首选。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="mint" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="phone mint">
+        <div class="screen">
+          <div class="ph-top">
+            <div class="ph-avatar">🧒</div>
+            <div>
+              <div class="ph-name">豆豆</div>
+              <div class="ph-sub">5 岁 2 个月</div>
+            </div>
+            <div class="ph-chev">▾</div>
+          </div>
+          <div class="ph-hero">
+            <div class="ph-mascot">🐤</div>
+            <div class="greet">本月长高了<br><b>0.6 cm</b></div>
+          </div>
+          <div class="ph-stats">
+            <div class="ph-stat">
+              <div class="lab">身高</div>
+              <div class="val">115.2<span class="u">cm</span></div>
+              <div class="delta">▲ 超过 68% 同龄</div>
+            </div>
+            <div class="ph-stat">
+              <div class="lab">体重</div>
+              <div class="val">21.5<span class="u">kg</span></div>
+              <div class="delta">▲ +0.3 本月</div>
+            </div>
+          </div>
+          <div class="ph-curve">
+            <div class="ttl"><span>身高曲线</span><b>P68</b></div>
+            <svg viewBox="0 0 120 40" preserveAspectRatio="none">
+              <path d="M0,34 C18,32 32,26 52,22 S92,10 120,5" style="fill:none;stroke:var(--p-primary);stroke-width:2.4;stroke-linecap:round"/>
+              <path d="M0,34 C18,32 32,26 52,22 S92,10 120,5 L120,40 L0,40 Z" style="fill:var(--p-primary);opacity:.13"/>
+              <circle cx="120" cy="5" r="2.6" style="fill:var(--p-primary)"/>
+            </svg>
+          </div>
+          <button class="ph-fab">＋ 记一笔</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · 清新薄荷 🐤</h3>
+      <p>薄荷绿 + 大量留白,更「简约」取向。线条干净、克制的可爱,适合偏好清爽、不想太花哨的家长。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="rainbow" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="phone rainbow">
+        <div class="screen">
+          <div class="ph-top">
+            <div class="ph-avatar">🧒</div>
+            <div>
+              <div class="ph-name">豆豆</div>
+              <div class="ph-sub">5 岁 2 个月</div>
+            </div>
+            <div class="ph-chev">▾</div>
+          </div>
+          <div class="ph-hero">
+            <div class="ph-mascot">🦄</div>
+            <div class="greet">本月长高了<br><b>0.6 cm · 好厉害</b></div>
+          </div>
+          <div class="ph-stats">
+            <div class="ph-stat">
+              <div class="lab">身高</div>
+              <div class="val">115.2<span class="u">cm</span></div>
+              <div class="delta">▲ 超过 68% 同龄</div>
+            </div>
+            <div class="ph-stat">
+              <div class="lab">体重</div>
+              <div class="val">21.5<span class="u">kg</span></div>
+              <div class="delta">▲ +0.3 本月</div>
+            </div>
+          </div>
+          <div class="ph-curve">
+            <div class="ttl"><span>身高曲线</span><b>P68</b></div>
+            <svg viewBox="0 0 120 40" preserveAspectRatio="none">
+              <defs><linearGradient id="rg1" x1="0" x2="1"><stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#FF7AA8"/></linearGradient></defs>
+              <path d="M0,34 C18,32 32,26 52,22 S92,10 120,5" style="fill:none;stroke:url(#rg1);stroke-width:2.6;stroke-linecap:round"/>
+              <path d="M0,34 C18,32 32,26 52,22 S92,10 120,5 L120,40 L0,40 Z" style="fill:#7C5CFF;opacity:.13"/>
+              <circle cx="120" cy="5" r="2.8" style="fill:#FF7AA8"/>
+            </svg>
+          </div>
+          <button class="ph-fab">＋ 记一笔</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · 彩虹活力 🦄</h3>
+      <p>多彩渐变 + 贴纸感徽章,最「活泼」。娱乐性强、最能吸引小朋友自己点开看,但信息密度稍低。</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="max-width:1000px;margin:0 auto;">
+  <p class="label">三种方向都满足需求,差异在「气质」</p>
+  <div class="pros-cons">
+    <div class="pros"><h4>我的推荐:A 暖阳长颈鹿</h4><ul>
+      <li>长颈鹿 = 「长高」主题的天然吉祥物,会随身高增长一起变高,小朋友超喜欢</li>
+      <li>暖色圆润既「卡通」又不杂乱,兼顾「美观简约」</li>
+      <li>信息密度适中,家长录入、孩子观看都舒服</li>
+    </ul></div>
+    <div class="cons"><h4>取舍</h4><ul>
+      <li>A 最有记忆点,但偏可爱向;若你更想要「冷淡简约」选 B</li>
+      <li>C 最炫但色彩多,长时间看略闹;更适合做「给孩子看的展示页」而非主录入页</li>
+      <li>吉祥物/插画后期可替换,不影响功能</li>
+    </ul></div>
+  </div>
+</div>

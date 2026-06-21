@@ -1,0 +1,137 @@
+<h2>整体页面结构(信息架构)</h2>
+<p class="subtitle">4 个底部标签 + 一个全局悬浮「记一笔」按钮(任何页面都能一键录入)。下面是 4 个主页面在手机上的样子。终端里告诉我这个结构 OK 不 OK。</p>
+
+<style>
+  .map-row{ display:flex; gap:18px; flex-wrap:wrap; justify-content:center; max-width:980px; margin:0 auto 1.5rem; }
+  .m-phone{ width:190px; }
+  .m-title{ text-align:center; font-weight:700; font-size:.95rem; margin-bottom:6px; }
+  .m-title small{ display:block; font-weight:500; color:var(--text-secondary); font-size:.72rem; margin-top:2px;}
+  .phone{ width:190px; border-radius:30px; padding:6px; background:#F0C089; box-shadow:0 10px 24px rgba(0,0,0,.14); }
+  .screen{ border-radius:25px; padding:11px 10px 0; background:#FFF7EC; color:#5B3A1F; display:flex; flex-direction:column; gap:8px; height:366px; overflow:hidden; position:relative; }
+  .m-top{ display:flex; align-items:center; gap:7px; }
+  .m-ava{ width:26px;height:26px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 3px 8px rgba(255,138,61,.16); }
+  .m-name{ font-size:12px;font-weight:800; } .m-sub{ font-size:8.5px;color:#B98E6A;font-weight:600; }
+  .m-chev{ margin-left:auto;background:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#B98E6A;box-shadow:0 3px 8px rgba(255,138,61,.16); }
+  .card-w{ background:#fff;border-radius:13px;padding:8px 9px;box-shadow:0 3px 8px rgba(255,138,61,.12); }
+  .m-hero{ display:flex;align-items:center;gap:7px; } .m-hero .ms{ font-size:24px;line-height:1;} .m-hero .g{ font-size:9px;color:#B98E6A;line-height:1.4;} .m-hero .g b{display:block;font-size:11px;color:#5B3A1F;}
+  .m-stats{ display:grid;grid-template-columns:1fr 1fr;gap:6px; }
+  .m-st .l{ font-size:8.5px;color:#B98E6A;font-weight:600;} .m-st .v{ font-size:15px;font-weight:800;} .m-st .v .u{font-size:8px;font-weight:700;color:#B98E6A;} .m-st .d{ font-size:8px;color:#3FAE6A;font-weight:700;}
+  .m-stitle{ font-size:8.5px;color:#B98E6A;font-weight:700;display:flex;justify-content:space-between;} .m-stitle b{color:#FF8A3D;}
+  .m-curve svg{width:100%;height:46px;display:block;}
+  .seg{ display:flex;background:#FFE9D6;border-radius:9px;padding:2px;gap:2px;} .seg div{ flex:1;text-align:center;font-size:9px;font-weight:700;padding:4px 0;border-radius:7px;color:#B98E6A;} .seg .on{ background:#fff;color:#FF8A3D;box-shadow:0 2px 5px rgba(255,138,61,.18);}
+  .chips{ display:flex;flex-wrap:wrap;gap:5px;} .chip{ background:#fff;border-radius:8px;padding:5px 7px;font-size:8.5px;font-weight:700;box-shadow:0 3px 8px rgba(255,138,61,.12);line-height:1.2;} .chip small{display:block;color:#B98E6A;font-weight:600;font-size:7.5px;}
+  .grid2{ display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+  .ph-tile{ aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .sl-btn{ background:linear-gradient(95deg,#FF8A3D,#FFB347);color:#fff;border:none;border-radius:10px;padding:7px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:4px;box-shadow:0 3px 8px rgba(255,138,61,.25);}
+  .set-list{ display:flex;flex-direction:column;gap:5px;} .set-row{ background:#fff;border-radius:10px;padding:8px 9px;display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;box-shadow:0 3px 8px rgba(255,138,61,.10);} .set-row .ic{font-size:13px;} .set-row .ar{margin-left:auto;color:#B98E6A;font-size:10px;} .set-row .tag{margin-left:auto;font-size:8px;font-weight:700;color:#3FAE6A;background:#E7F6EC;padding:2px 6px;border-radius:6px;} .set-row .tag.off{color:#C98A5A;background:#FFE9D6;}
+  /* tab bar */
+  .tabbar{ position:absolute;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #FFE3CC;display:flex;padding:6px 0 8px;box-shadow:0 -3px 10px rgba(255,138,61,.08);}
+  .tab{ flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:8px;font-weight:700;color:#CBB299;} .tab.on{color:#FF8A3D;} .tab .ti{font-size:14px;line-height:1;}
+  .fab{ position:absolute;right:12px;bottom:26px;background:#FF8A3D;color:#fff;border:none;border-radius:18px;padding:8px 12px;font-size:10px;font-weight:800;box-shadow:0 6px 14px rgba(255,138,61,.4);display:flex;align-items:center;gap:3px;z-index:2;}
+  .leg{ max-width:980px;margin:0 auto; }
+</style>
+
+<div class="map-row">
+
+  <!-- 首页 -->
+  <div class="m-phone">
+    <div class="m-title">🏠 首页<small>概览 · 一眼看到状态</small></div>
+    <div class="phone"><div class="screen">
+      <div class="m-top"><div class="m-ava">🧒</div><div><div class="m-name">豆豆</div><div class="m-sub">5岁2月</div></div><div class="m-chev">▾</div></div>
+      <div class="card-w m-hero"><div class="ms">🦒</div><div class="g">本月长高<b>0.6cm · 棒棒哒</b></div></div>
+      <div class="m-stats">
+        <div class="card-w m-st"><div class="l">身高</div><div class="v">115.2<span class="u">cm</span></div><div class="d">▲ 超68%同龄</div></div>
+        <div class="card-w m-st"><div class="l">体重</div><div class="v">21.5<span class="u">kg</span></div><div class="d">▲ +0.3本月</div></div>
+      </div>
+      <div class="card-w"><div class="m-stitle"><span>身高曲线</span><b>P68</b></div>
+        <div class="m-curve"><svg viewBox="0 0 120 40" preserveAspectRatio="none">
+          <path d="M0,34 C20,32 34,26 54,22 S94,10 120,5" fill="none" stroke="#FF8A3D" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M0,34 C20,32 34,26 54,22 S94,10 120,5 L120,40 L0,40 Z" fill="#FF8A3D" opacity=".13"/>
+          <circle cx="120" cy="5" r="2.6" fill="#FF8A3D"/></svg></div>
+      </div>
+      <button class="fab">＋记一笔</button>
+      <div class="tabbar"><div class="tab on"><span class="ti">🏠</span>首页</div><div class="tab"><span class="ti">📈</span>曲线</div><div class="tab"><span class="ti">🖼</span>相册</div><div class="tab"><span class="ti">⚙</span>我的</div></div>
+    </div></div>
+  </div>
+
+  <!-- 曲线 -->
+  <div class="m-phone">
+    <div class="m-title">📈 曲线<small>成长曲线 + 派生指标</small></div>
+    <div class="phone"><div class="screen">
+      <div class="m-top"><div class="m-name" style="font-size:13px;">📈 成长曲线</div></div>
+      <div class="seg"><div class="on">身高</div><div>体重</div><div>BMI</div></div>
+      <div class="card-w"><div class="m-stitle"><span>身高/年龄 · WHO标准</span><b>P68</b></div>
+        <div class="m-curve"><svg viewBox="0 0 120 46" preserveAspectRatio="none">
+          <path d="M0,30 C30,28 60,24 120,18" fill="none" stroke="#FFD0A8" stroke-width="1.4"/>
+          <path d="M0,38 C30,36 60,30 120,26" fill="none" stroke="#FFD0A8" stroke-width="1.4"/>
+          <path d="M0,30 C30,28 60,24 120,18 L120,26 C60,30 30,36 0,38 Z" fill="#FF8A3D" opacity=".10"/>
+          <path d="M2,40 C25,36 50,30 80,24 S110,16 118,13" fill="none" stroke="#FF8A3D" stroke-width="2.6" stroke-linecap="round"/>
+          <circle cx="118" cy="13" r="2.8" fill="#FF8A3D"/></svg></div>
+        <div style="font-size:7.5px;color:#B98E6A;margin-top:2px;">浅带 = P3~P97 正常范围</div>
+      </div>
+      <div class="chips">
+        <div class="chip">📏 预测 <small>≈175cm</small></div>
+        <div class="chip">🌱 发育 <small>学龄期</small></div>
+        <div class="chip">📊 BMI <small>P55 正常</small></div>
+      </div>
+      <div class="tabbar"><div class="tab"><span class="ti">🏠</span>首页</div><div class="tab on"><span class="ti">📈</span>曲线</div><div class="tab"><span class="ti">🖼</span>相册</div><div class="tab"><span class="ti">⚙</span>我的</div></div>
+    </div></div>
+  </div>
+
+  <!-- 相册 -->
+  <div class="m-phone">
+    <div class="m-title">🖼 相册<small>时光相册 + 成长幻灯片</small></div>
+    <div class="phone"><div class="screen">
+      <div class="m-top"><div class="m-name" style="font-size:13px;">🖼 时光相册</div></div>
+      <button class="sl-btn">▶ 播放成长幻灯片</button>
+      <div class="m-stitle" style="margin-top:1px;"><span>2025 · 5岁</span><b>6张</b></div>
+      <div class="grid2">
+        <div class="ph-tile" style="background:linear-gradient(135deg,#FFD3A5,#FF8A3D)">😊</div>
+        <div class="ph-tile" style="background:linear-gradient(135deg,#A8E6CF,#56C596)">🌳</div>
+        <div class="ph-tile" style="background:linear-gradient(135deg,#FFC1D8,#FF7AA8)">🎈</div>
+        <div class="ph-tile" style="background:linear-gradient(135deg,#BFC7FF,#7C5CFF)">🎂</div>
+      </div>
+      <div class="m-stitle" style="margin-top:1px;"><span>2024 · 4岁</span><b>12张</b></div>
+      <div class="grid2">
+        <div class="ph-tile" style="background:linear-gradient(135deg,#FFF1A8,#FFB347)">⚽</div>
+        <div class="ph-tile" style="background:linear-gradient(135deg,#A8E6CF,#56C596)">🐰</div>
+        <div class="ph-tile" style="background:linear-gradient(135deg,#FFD3A5,#FF8A3D)">🚲</div>
+        <div class="ph-tile" style="background:linear-gradient(135deg,#BFC7FF,#7C5CFF)">🎒</div>
+      </div>
+      <div class="tabbar"><div class="tab"><span class="ti">🏠</span>首页</div><div class="tab"><span class="ti">📈</span>曲线</div><div class="tab on"><span class="ti">🖼</span>相册</div><div class="tab"><span class="ti">⚙</span>我的</div></div>
+    </div></div>
+  </div>
+
+  <!-- 我的 -->
+  <div class="m-phone">
+    <div class="m-title">⚙ 我的<small>设置 · 主题 · 存储</small></div>
+    <div class="phone"><div class="screen">
+      <div class="m-top"><div class="m-name" style="font-size:13px;">⚙ 我的</div></div>
+      <div class="set-list">
+        <div class="set-row"><span class="ic">👨‍👩‍👧</span>孩子管理<span class="ar">豆豆▾</span></div>
+        <div class="set-row"><span class="ic">🎨</span>我的主题<span class="ar">暖阳长颈鹿›</span></div>
+        <div class="set-row"><span class="ic">☁️</span>图片存储<span class="tag">已配置</span></div>
+        <div class="set-row"><span class="ic">🔒</span>访问密码<span class="ar">修改›</span></div>
+        <div class="set-row"><span class="ic">📤</span>导出数据<span class="ar">›</span></div>
+        <div class="set-row"><span class="ic">ℹ️</span>关于<span class="ar">v1.0</span></div>
+      </div>
+      <div class="tabbar"><div class="tab"><span class="ti">🏠</span>首页</div><div class="tab"><span class="ti">📈</span>曲线</div><div class="tab"><span class="ti">🖼</span>相册</div><div class="tab on"><span class="ti">⚙</span>我的</div></div>
+    </div></div>
+  </div>
+
+</div>
+
+<div class="leg">
+  <div class="pros-cons">
+    <div class="pros"><h4>结构要点</h4><ul>
+      <li><b>底部 4 标签</b>:首页 / 曲线 / 相册 / 我的 —— 够用又不杂,符合「简约」</li>
+      <li><b>全局悬浮「记一笔」</b>:任何页面右手就能点到,手机录入零层级</li>
+      <li>录完直接回当前页,不打断浏览</li>
+    </ul></div>
+    <div class="cons"><h4>为什么这样分</h4><ul>
+      <li>首页=「看状态」、曲线=「看趋势+评估」、相册=「给孩子看回忆」、我的=「配置」——职责清晰</li>
+      <li>主题、S3、密码、导出都收在「我的」,首页保持干净</li>
+      <li>相册单独成页,才放得下「成长幻灯片」这种给孩子看的大功能</li>
+    </ul></div>
+  </div>
+</div>

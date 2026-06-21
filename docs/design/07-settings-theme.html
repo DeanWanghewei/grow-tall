@@ -1,0 +1,207 @@
+<h2>设置类页面 · 最后一批</h2>
+<p class="subtitle">我的(设置)+ 主题选择器(多主题切换)+ S3 配置流程(未配置→友好提示→配置表单)。做完 UI 就齐了。</p>
+
+<style>
+  .wrap{ display:flex; gap:30px; flex-wrap:wrap; justify-content:center; max-width:1050px; margin:0 auto 1rem; align-items:flex-start; }
+  .cap{ text-align:center; font-weight:700; margin-bottom:8px; font-size:.98rem;}
+  .cap small{ display:block; font-weight:600; color:var(--text-secondary); font-size:.72rem; margin-top:2px;}
+  .phone3{ width:280px; border-radius:44px; padding:7px; background:#1f1f1f; position:relative; box-shadow:0 18px 40px rgba(120,70,30,.28);}
+  .screen3{ border-radius:37px; background:#FFF7EC; color:#5B3A1F; height:618px; overflow:hidden; position:relative; display:flex; flex-direction:column; }
+  .sb{ height:42px; display:flex; align-items:center; padding:0 22px; position:relative; flex-shrink:0; background:linear-gradient(180deg,rgba(255,200,140,.25),transparent);}
+  .sb .tm{ font-size:13px; font-weight:800;} .sb .sig{ margin-left:auto; font-size:11px;}
+  .island{ position:absolute; left:50%; top:8px; transform:translateX(-50%); width:92px; height:28px; background:#1f1f1f; border-radius:16px;}
+  .nav{ margin-top:auto; display:grid; grid-template-columns:1fr 1fr 72px 1fr 1fr; align-items:end; background:#fff; border-top:3px dashed #FFE3CC; padding:9px 4px 8px; position:relative;}
+  .nav .nt{ display:flex; flex-direction:column; align-items:center; gap:1px; font-size:8px; font-weight:800; color:#CBB299;}
+  .nav .nt.on{ color:#FF8A3D;} .nav .nt .ni{ font-size:16px;}
+  .plus{ position:absolute; left:50%; bottom:16px; transform:translateX(-50%); width:56px;height:56px;border-radius:50%; background:linear-gradient(135deg,#FFB347,#FF7A2F); border:3px solid #fff; box-shadow:0 6px 0 #C95A1E, 0 12px 18px rgba(255,106,41,.45); display:flex;align-items:center;justify-content:center; flex-direction:column; z-index:6;}
+  .plus .fa{ font-size:20px;} .plus .lb{ font-size:7px; font-weight:800; color:#fff;}
+  .hi{ height:22px; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:#fff;}
+  .hi .pill{ width:120px; height:5px; border-radius:3px; background:#C9923F; opacity:.5;}
+
+  /* settings */
+  .me-head{ margin:4px 12px 0; background:linear-gradient(135deg,#FFB347,#FF8A3D); border-radius:20px; padding:14px; color:#fff; display:flex; align-items:center; gap:10px; box-shadow:0 6px 0 #D96A28; position:relative; overflow:hidden;}
+  .me-head .logo{ font-size:40px; filter:drop-shadow(0 2px 3px rgba(0,0,0,.2));}
+  .me-head .tt{ font-size:15px; font-weight:800;} .me-head .st{ font-size:9px; opacity:.95; font-weight:700; margin-top:1px;}
+  .me-head .tag{ margin-left:auto; background:rgba(255,255,255,.25); border:1px dashed rgba(255,255,255,.6); border-radius:10px; padding:3px 7px; font-size:8px; font-weight:800;}
+  .grp-t{ font-size:9px; font-weight:800; color:#B98E6A; padding:12px 16px 4px;}
+  .set-list{ display:flex; flex-direction:column; gap:6px; padding:0 12px;}
+  .set-row{ background:#fff; border-radius:14px; padding:11px 12px; display:flex; align-items:center; gap:9px; font-size:11px; font-weight:800; box-shadow:0 4px 0 rgba(255,138,61,.10);}
+  .set-row .ic{ width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .set-row .ar{ margin-left:auto; color:#CBB299; font-size:12px;}
+  .set-row .tag{ margin-left:auto; font-size:8px; font-weight:800; padding:3px 7px; border-radius:7px;}
+  .tag.ok{ color:#2E8B57; background:#E2F5EA;} .tag.off{ color:#C77B3A; background:#FFE9D6;}
+  .kids{ display:flex; gap:6px; align-items:center;}
+  .kids .kc{ width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .kids .add{ width:30px;height:30px;border-radius:50%;background:#FFE9D6;color:#C77B3A;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;}
+
+  /* theme picker sheet */
+  .dim{ position:absolute; inset:0; background:rgba(60,35,15,.5); z-index:7;}
+  .sheet{ position:absolute; left:0;right:0;bottom:0; background:#FFF7EC; border-radius:26px 26px 0 0; padding:10px 14px 16px; z-index:8; box-shadow:0 -8px 30px rgba(0,0,0,.2);}
+  .grab{ width:40px;height:5px;border-radius:3px;background:#E8C79A;margin:4px auto 8px;}
+  .sheet h3{ font-size:14px; text-align:center; margin-bottom:2px;}
+  .sheet .sh-sub{ font-size:9px; color:#B98E6A; font-weight:700; text-align:center; margin-bottom:10px;}
+  .themes{ display:flex; gap:8px; justify-content:center; margin-bottom:10px;}
+  .tcard{ width:72px; cursor:pointer;}
+  .tmini{ width:72px; height:128px; border-radius:14px; padding:5px; display:flex; flex-direction:column; gap:4px; border:3px solid transparent; box-shadow:0 5px 10px rgba(0,0,0,.12);}
+  .tmini.sel{ border-color:#FF8A3D; box-shadow:0 0 0 3px rgba(255,138,61,.25);}
+  .tmini .mh{ height:18px; border-radius:6px; display:flex;align-items:center;justify-content:center;font-size:11px;}
+  .tmini .mhero{ height:34px; border-radius:8px; display:flex;align-items:center;justify-content:center;font-size:18px;}
+  .tmini .mst{ height:14px; border-radius:5px;}
+  .tmini .mbtn{ margin-top:auto; height:16px; border-radius:5px;}
+  .tname{ font-size:8.5px; font-weight:800; text-align:center; margin-top:4px; color:#5B3A1F;}
+  .tname small{ display:block; color:#B98E6A; font-weight:700; font-size:7px;}
+  .tcard.sel .tname{ color:#FF8A3F;}
+  .rec{ background:#FFF0DA; border:1px dashed #FFC987; border-radius:10px; padding:6px 9px; font-size:9px; font-weight:800; color:#C77B3A; text-align:center; margin-bottom:9px;}
+  .apply{ width:100%; border:none; border-radius:14px; padding:11px; font-size:12px; font-weight:800; color:#fff; background:linear-gradient(95deg,#FF8A3D,#FF6A9D); box-shadow:0 5px 0 #C9541E;}
+
+  /* S3 prompt + form */
+  .cloud-big{ font-size:46px; text-align:center; margin:6px 0 2px; animation:bob 2.6s infinite;}
+  .sheet .pt{ font-size:14px; font-weight:800; text-align:center;}
+  .sheet .pdesc{ font-size:9.5px; color:#B98E6A; font-weight:700; text-align:center; line-height:1.5; margin:5px 14px 12px;}
+  .btns{ display:flex; gap:8px;}
+  .btns .ghost{ flex:1; background:#fff; border:2px solid #FFE3CC; border-radius:12px; padding:11px; font-size:11px; font-weight:800; color:#C77B3A;}
+  .btns .pri{ flex:1.6; border:none; border-radius:12px; padding:11px; font-size:11px; font-weight:800; color:#fff; background:linear-gradient(95deg,#FF8A3D,#FFB347); box-shadow:0 5px 0 #C95A1E;}
+  .field-l{ background:#fff; border-radius:12px; padding:8px 11px; margin-bottom:7px; box-shadow:0 3px 0 rgba(255,138,61,.10);}
+  .field-l .lb{ font-size:8px; color:#B98E6A; font-weight:800;} .field-l .vl{ font-size:10px; font-weight:700; color:#5B3A1F; margin-top:1px;}
+  .field-l .vl .ph{ color:#CBB299; font-weight:600;}
+  .compat{ font-size:8px; color:#B98E6A; font-weight:700; text-align:center; margin:4px 0 8px;}
+  .test{ width:100%; background:#FFF0DA; border:2px dashed #FFB347; border-radius:12px; padding:9px; font-size:10px; font-weight:800; color:#C77B3A; margin-bottom:7px;}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+</style>
+
+<div class="wrap">
+
+  <!-- 我的 -->
+  <div>
+    <div class="cap">⚙ 我的 · 设置<small>孩子管理 / 主题 / 存储 / 密码 / 导出</small></div>
+    <div class="phone3"><div class="screen3">
+      <div class="sb"><span class="tm">9:41</span><span class="sig">📶 🔋</span><div class="island"></div></div>
+      <div class="me-head"><div class="logo">🦒</div><div><div class="tt">豆豆的成长日记</div><div class="st">已记录 38 条 · 199 张照片</div></div><div class="tag">👨‍👩‍👧 一家</div></div>
+      <div class="grp-t">家庭成员</div>
+      <div class="set-list">
+        <div class="set-row"><div class="ic" style="background:#FFE9D6">👨‍👩‍👧</div>孩子管理<div class="kids"><div class="kc" style="background:#FFD3A5">🧒</div><div class="kc" style="background:#FFC1D8">👧</div><div class="add">＋</div></div></div>
+      </div>
+      <div class="grp-t">个性化</div>
+      <div class="set-list">
+        <div class="set-row"><div class="ic" style="background:#FFE9D6">🎨</div>我的主题<span class="ar">暖阳长颈鹿 ›</span></div>
+      </div>
+      <div class="grp-t">数据与安全</div>
+      <div class="set-list">
+        <div class="set-row"><div class="ic" style="background:#E2F5EA">☁️</div>图片存储<span class="tag off">未配置</span></div>
+        <div class="set-row"><div class="ic" style="background:#FFE9D6">🔒</div>访问密码<span class="ar">修改 ›</span></div>
+        <div class="set-row"><div class="ic" style="background:#E8E2FF">📤</div>导出数据<span class="ar">›</span></div>
+        <div class="set-row"><div class="ic" style="background:#E2F0F5">ℹ️</div>关于<span class="ar">v1.0</span></div>
+      </div>
+      <div class="nav">
+        <div class="nt"><span class="ni">🏠</span>首页</div><div class="nt"><span class="ni">📈</span>曲线</div><div></div><div class="nt"><span class="ni">🖼</span>相册</div><div class="nt on"><span class="ni">⚙</span>我的</div>
+        <button class="plus"><span class="fa">🦒</span><span class="lb">记一笔</span></button>
+      </div>
+      <div class="hi"><div class="pill"></div></div>
+    </div></div>
+  </div>
+
+  <!-- 主题选择器 -->
+  <div>
+    <div class="cap">🎨 主题选择器<small>三套主题实时预览 · 点一下换肤</small></div>
+    <div class="phone3"><div class="screen3">
+      <div class="sb" style="opacity:.5"><span class="tm">9:41</span><span class="sig">📶 🔋</span><div class="island"></div></div>
+      <div style="filter:blur(1px) saturate(.6); flex:1; padding:14px"><div class="me-head" style="margin:0"><div class="logo">🦒</div><div><div class="tt">豆豆的成长日记</div></div></div></div>
+      <div class="dim"></div>
+      <div class="sheet">
+        <div class="grab"></div>
+        <h3>🎨 选个主题</h3>
+        <div class="sh-sub">每个孩子可以有不同的主题 · 随时换</div>
+        <div class="rec">💡 根据 5 岁推荐:暖阳长颈鹿、彩虹活力</div>
+        <div class="themes">
+          <div class="tcard sel">
+            <div class="tmini sel" style="background:#FFF7EC">
+              <div class="mh" style="background:linear-gradient(95deg,#FFB347,#FF8A3D)">🦒 暖</div>
+              <div class="mhero" style="background:#FFF;box-shadow:0 2px 4px rgba(0,0,0,.06)">🦒</div>
+              <div class="mst" style="background:linear-gradient(90deg,#FFD3A5,#fff)"></div>
+              <div class="mbtn" style="background:#FF8A3D"></div>
+            </div>
+            <div class="tname">暖阳长颈鹿<small>0-6 岁 · 推荐</small></div>
+          </div>
+          <div class="tcard">
+            <div class="tmini" style="background:#F1F8F6">
+              <div class="mh" style="background:linear-gradient(95deg,#56C596,#21A99B)">🐤 薄</div>
+              <div class="mhero" style="background:#FFF;box-shadow:0 2px 4px rgba(0,0,0,.06)">🐤</div>
+              <div class="mst" style="background:linear-gradient(90deg,#B6E0D6,#fff)"></div>
+              <div class="mbtn" style="background:#21A99B"></div>
+            </div>
+            <div class="tname">清新薄荷<small>7-12 岁</small></div>
+          </div>
+          <div class="tcard">
+            <div class="tmini" style="background:linear-gradient(170deg,#FBF0FF,#FFF6E6)">
+              <div class="mh" style="background:linear-gradient(95deg,#7C5CFF,#FF7AA8)">🦄 彩</div>
+              <div class="mhero" style="background:#FFF;box-shadow:0 2px 4px rgba(0,0,0,.06)">🦄</div>
+              <div class="mst" style="background:linear-gradient(90deg,#C7B8FF,#fff)"></div>
+              <div class="mbtn" style="background:linear-gradient(95deg,#7C5CFF,#FF7AA8)"></div>
+            </div>
+            <div class="tname">彩虹活力<small>全年龄</small></div>
+          </div>
+        </div>
+        <button class="apply">✓ 应用到豆豆</button>
+      </div>
+      <div class="hi" style="background:#FFF7EC"><div class="pill"></div></div>
+    </div></div>
+  </div>
+
+  <!-- S3 未配置提示 -->
+  <div>
+    <div class="cap">☁️ 上传时未配置 → 友好提示<small>不是报错,是温和引导</small></div>
+    <div class="phone3"><div class="screen3">
+      <div class="sb" style="opacity:.5"><span class="tm">9:41</span><span class="sig">📶 🔋</span><div class="island"></div></div>
+      <div style="opacity:.4;flex:1;padding:14px"><div class="me-head" style="margin:0"><div class="logo">🦒</div><div><div class="tt">豆豆的成长日记</div></div></div></div>
+      <div class="dim"></div>
+      <div class="sheet">
+        <div class="grab"></div>
+        <div class="cloud-big">☁️</div>
+        <div class="pt">还没配置图片存储哦</div>
+        <div class="pdesc">配置一个 S3 兼容存储(阿里云 OSS / MinIO / R2 等),就能把成长照片存到云端,<b style="color:#FF7A2F">换手机也不丢</b>。<br>不配置也能正常记录身高体重~</div>
+        <div class="btns">
+          <button class="ghost">暂不</button>
+          <button class="pri">去配置 →</button>
+        </div>
+      </div>
+      <div class="hi" style="background:#FFF7EC"><div class="pill"></div></div>
+    </div></div>
+  </div>
+
+  <!-- S3 配置表单 -->
+  <div>
+    <div class="cap">☁️ S3 配置表单<small>兼容 S3 协议 · 可测试连接</small></div>
+    <div class="phone3"><div class="screen3">
+      <div class="sb"><span class="tm">9:41</span><span class="sig">📶 🔋</span><div class="island"></div></div>
+      <div style="display:flex;align-items:center;gap:8px;padding:2px 16px;font-weight:800;"><span style="font-size:14px;color:#C77B3A">‹</span><span style="font-size:14px;flex:1">☁️ 图片存储</span><span class="tag ok" style="font-size:8px;font-weight:800;padding:3px 7px;border-radius:7px;color:#2E8B57;background:#E2F5EA">已连接</span></div>
+      <div style="padding:8px 14px 0;flex:1;overflow:hidden">
+        <div class="field-l"><div class="lb">服务端地址 (Endpoint)</div><div class="vl">https://oss-cn-hangzhou.aliyuncs.com</div></div>
+        <div class="field-l"><div class="lb">区域 (Region)</div><div class="vl">cn-hangzhou</div></div>
+        <div class="field-l"><div class="lb">存储桶 (Bucket)</div><div class="vl">grow-tall-photos</div></div>
+        <div class="field-l"><div class="lb">Access Key</div><div class="vl">LTAI5t••••••••••••</div></div>
+        <div class="field-l"><div class="lb">Secret Key</div><div class="vl">••••••••••••••••</div></div>
+        <div class="compat">兼容 S3 协议:阿里云 OSS / 腾讯云 COS / MinIO / Cloudflare R2 / AWS</div>
+        <button class="test">🔌 测试连接</button>
+        <button class="apply" style="margin-top:0">💾 保存配置</button>
+      </div>
+      <div class="hi"><div class="pill"></div></div>
+    </div></div>
+  </div>
+
+</div>
+
+<div style="max-width:1050px;margin:0 auto;">
+  <div class="pros-cons">
+    <div class="pros"><h4>这批的关键设计</h4><ul>
+      <li><b>主题选择器</b>:三套主题做成迷你实时预览,点一下整盘换色(配色 + 吉祥物一起变);按年龄智能推荐,但不锁定</li>
+      <li><b>S3 未配置</b>:点上传时弹出<b>温和提示</b>(☁️ 引导),不是报错弹窗;明确告诉「不配置也能记身高体重,只是不能存图」</li>
+      <li><b>S3 表单</b>:5 个字段 + 测试连接 + 保存;兼容主流 S3 协议存储;密钥仅服务端保存</li>
+      <li>设置页头像化的孩子管理:多孩子一眼看到,点头像切换</li>
+    </ul></div>
+    <div class="cons"><h4>UI 至此全部覆盖</h4><ul>
+      <li>✅ 首页(成长墙) ✅ 记一笔 ✅ 曲线 ✅ 相册 ✅ 幻灯片(A) ✅ 我的 ✅ 主题 ✅ S3</li>
+      <li>三套主题 + 安全区(iOS/鸿蒙)+ 卡通拟物 + 趣味动效,风格统一</li>
+      <li>下一步:我把以上全部整理成<b>设计规格文档</b>给你过目,确认后进入实现计划</li>
+    </ul></div>
+  </div>
+</div>

@@ -1,0 +1,173 @@
+<h2>安全区适配 · iOS & HarmonyOS 6</h2>
+<p class="subtitle">上下都留出安全区(顶部状态栏/刘海、底部 Home 条/手势条),内容不被遮挡、凸起按钮不被压。左 iOS(灵动岛)、右 HarmonyOS 6(居中挖孔),同一套代码自动适配。</p>
+
+<style>
+  .wrap{ display:flex; gap:34px; flex-wrap:wrap; justify-content:center; max-width:1000px; margin:0 auto 1rem; align-items:flex-start; }
+  .cap{ text-align:center; font-weight:700; margin-bottom:8px; font-size:.98rem;}
+  .cap small{ display:block; font-weight:600; color:var(--text-secondary); font-size:.72rem; margin-top:2px;}
+
+  .phone3{ width:280px; border-radius:44px; padding:7px; position:relative; box-shadow:0 18px 40px rgba(120,70,30,.28);}
+  .ios{ background:#1f1f1f; }
+  .hos{ background:#3a3a3a; }
+  .screen3{ border-radius:37px; background:#FFF7EC; color:#5B3A1F; height:618px; overflow:hidden; position:relative; display:flex; flex-direction:column; }
+
+  /* status bar = top safe area */
+  .sb{ height:42px; display:flex; align-items:center; padding:0 22px; position:relative; flex-shrink:0;
+    background:linear-gradient(180deg,rgba(255,200,140,.25),rgba(255,200,140,0)); }
+  .sb .tm{ font-size:13px; font-weight:800; }
+  .sb .sig{ margin-left:auto; display:flex; gap:4px; align-items:center; font-size:11px; }
+  .island{ position:absolute; left:50%; top:8px; transform:translateX(-50%); width:92px; height:28px; background:#1f1f1f; border-radius:16px; }
+  .punch{ position:absolute; left:50%; top:11px; transform:translateX(-50%); width:11px; height:11px; background:#1f1f1f; border-radius:50%; box-shadow:0 0 0 3px #3a3a3a; }
+  .safe-tag{ position:absolute; right:6px; top:46px; font-size:7px; font-weight:800; color:#fff; background:rgba(255,122,47,.85); padding:2px 5px; border-radius:5px; z-index:4; letter-spacing:.3px;}
+  .safe-tag.b{ top:auto; bottom:30px;}
+
+  .hbar{ display:flex; align-items:center; gap:9px; padding:4px 16px 2px;}
+  .ava{ width:40px;height:40px;border-radius:50%; background:#fff; display:flex;align-items:center;justify-content:center;font-size:21px; box-shadow:0 0 0 3px #FF8A3D, 0 4px 10px rgba(255,138,61,.3); transform:rotate(-4deg);}
+  .hbar .nm{ font-size:14px;font-weight:800;} .hbar .ag{ font-size:9.5px;color:#B98E6A;font-weight:700;}
+  .today{ margin-left:auto; background:#fff; border:2px dashed #FFD0A8; border-radius:11px; padding:4px 8px; font-size:9px; font-weight:800; color:#C77B3A; }
+
+  .wall{ margin:4px 11px 0; border-radius:22px; padding:8px 6px 0; position:relative; height:182px;
+    background:linear-gradient(180deg,#FFEBC4 0%, #FFF3DF 60%, #EAD3A6 100%); overflow:hidden;}
+  .sun{ position:absolute; top:9px; right:14px; width:26px;height:26px;border-radius:50%; background:#FFD15C; box-shadow:0 0 0 5px rgba(255,209,92,.35);}
+  .cloud{ position:absolute; background:#fff; border-radius:14px; opacity:.9;} .cloud::before,.cloud::after{content:'';position:absolute;background:#fff;border-radius:50%;}
+  .c1{ width:30px;height:11px;top:20px;left:12px;} .c1::before{width:15px;height:15px;top:-7px;left:5px;} .c1::after{width:12px;height:12px;top:-5px;left:17px;}
+  .ruler{ position:absolute; right:12px; bottom:5px; width:26px; height:150px; display:flex; flex-direction:column; justify-content:flex-end;}
+  .rtick{ border-right:2px solid #C9923F; height:1px; margin-bottom:34px; position:relative;} .rtick span{ position:absolute; right:5px; top:-6px; font-size:6.5px; color:#B98E6A; font-weight:700;}
+  .giraffe{ position:absolute; left:34px; bottom:5px; height:150px;}
+  .giraffe svg{ height:150px; display:block;}
+  .bubble{ position:absolute; left:90px; top:10px; background:#fff; border-radius:12px; padding:5px 9px; font-size:9.5px; font-weight:800; box-shadow:0 4px 10px rgba(0,0,0,.1);}
+  .bubble::after{content:'';position:absolute;left:-7px;bottom:5px;border:6px solid transparent;border-right-color:#fff;}
+  .bubble b{ color:#FF7A2F; font-size:12px;}
+
+  .row2{ display:flex; gap:9px; padding:9px 11px 0;}
+  .stk{ flex:1; background:#fff; border-radius:16px; padding:9px 11px; box-shadow:0 5px 0 rgba(255,138,61,.14); position:relative;}
+  .stk.r1{ transform:rotate(-1.2deg);} .stk.r2{ transform:rotate(1.4deg);}
+  .stk .ic{ position:absolute; top:-7px; right:-5px; font-size:17px;}
+  .stk .lab{ font-size:9px; color:#B98E6A; font-weight:700;} .stk .val{ font-size:19px; font-weight:800;} .stk .val .u{font-size:9.5px;color:#B98E6A;}
+  .stk .d{ font-size:8.5px; color:#3FAE6A; font-weight:800; margin-top:1px;}
+
+  .ribbon{ margin:9px 11px 0; background:linear-gradient(95deg,#FF8A3D,#FFB347); border-radius:14px; padding:8px 11px; color:#fff; display:flex; align-items:center; gap:7px; box-shadow:0 5px 0 #D96A28;}
+  .ribbon .em{ font-size:18px;} .ribbon .t{ font-size:10.5px;font-weight:800;line-height:1.3;} .ribbon .t small{display:block;font-weight:600;opacity:.9;font-size:8px;}
+  .ribbon .badge{ margin-left:auto; background:#fff; color:#FF7A2F; font-size:8px; font-weight:800; padding:3px 6px; border-radius:9px;}
+
+  /* nav + raised center */
+  .nav{ margin-top:auto; display:grid; grid-template-columns:1fr 1fr 72px 1fr 1fr; align-items:end; background:#fff; border-top:3px dashed #FFE3CC; padding:9px 4px 8px; position:relative;}
+  .nav .nt{ display:flex; flex-direction:column; align-items:center; gap:1px; font-size:8px; font-weight:800; color:#CBB299;}
+  .nav .nt.on{ color:#FF8A3D;} .nav .nt .ni{ font-size:16px; line-height:1;}
+  .plus{ position:absolute; left:50%; bottom:16px; transform:translateX(-50%); width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(135deg,#FFB347,#FF7A2F); border:3px solid #fff; box-shadow:0 6px 0 #C95A1E, 0 12px 18px rgba(255,106,41,.45);
+    display:flex;align-items:center;justify-content:center; flex-direction:column; z-index:6;}
+  .plus .fa{ font-size:20px; line-height:1;} .plus .lb{ font-size:7px; font-weight:800; color:#fff; margin-top:1px;}
+
+  /* home indicator = bottom safe area */
+  .hi{ height:22px; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:#fff;}
+  .hi .pill{ width:120px; height:5px; border-radius:3px; background:#C9923F; opacity:.5;}
+
+  .legend{ max-width:1000px;margin:0 auto;}
+  .kbd{ display:inline-block; background:var(--bg-tertiary); color:var(--text-primary); font-family:ui-monospace,monospace; font-size:.78rem; padding:.05em .4em; border-radius:5px; }
+</style>
+
+<div class="wrap">
+
+  <!-- iOS -->
+  <div>
+    <div class="cap">iOS · 灵动岛<small>顶部刘海 + 底部 Home 条</small></div>
+    <div class="phone3 ios"><div class="screen3">
+      <div class="sb">
+        <span class="tm">9:41</span>
+        <span class="sig">📶 5G 🔋</span>
+        <div class="island"></div>
+        <div class="safe-tag">↕ 顶部安全区</div>
+      </div>
+      <div class="hbar"><div class="ava">🧒</div><div><div class="nm">豆豆</div><div class="ag">5 岁 2 个月</div></div><div class="today">☀ 6月21日</div></div>
+      <div class="wall">
+        <div class="sun"></div><div class="cloud c1"></div>
+        <div class="ruler"><div class="rtick"><span>120</span></div><div class="rtick"><span>110</span></div><div class="rtick"><span>100</span></div></div>
+        <div class="giraffe"><svg viewBox="0 0 120 200">
+          <rect x="36" y="150" width="9" height="42" rx="4" fill="#E89A4A"/><rect x="52" y="150" width="9" height="42" rx="4" fill="#F4B06B"/><rect x="80" y="150" width="9" height="42" rx="4" fill="#E89A4A"/><rect x="96" y="150" width="9" height="42" rx="4" fill="#F4B06B"/>
+          <ellipse cx="70" cy="148" rx="36" ry="22" fill="#F4B06B"/>
+          <path d="M72,150 Q60,92 66,42 L82,44 Q86,96 88,150 Z" fill="#F4B06B"/>
+          <ellipse cx="74" cy="36" rx="21" ry="15" fill="#F4B06B"/><ellipse cx="90" cy="43" rx="11" ry="9" fill="#F8C68A"/>
+          <rect x="62" y="13" width="4" height="13" rx="2" fill="#F4B06B"/><circle cx="64" cy="12" r="4" fill="#7A4A1E"/>
+          <rect x="74" y="11" width="4" height="14" rx="2" fill="#F4B06B"/><circle cx="76" cy="10" r="4" fill="#7A4A1E"/>
+          <ellipse cx="58" cy="30" rx="5" ry="8" fill="#E89A4A" transform="rotate(-25 58 30)"/>
+          <circle cx="76" cy="32" r="3.2" fill="#3a2a1a"/><circle cx="77" cy="31" r="1.1" fill="#fff"/>
+          <circle cx="95" cy="43" r="1.4" fill="#7A4A1E"/>
+          <path d="M85,49 Q90,52 95,49" stroke="#7A4A1E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="66" cy="68" rx="5" ry="4" fill="#D9822F"/><ellipse cx="64" cy="92" rx="6" ry="4.5" fill="#D9822F"/><ellipse cx="80" cy="112" rx="7" ry="5" fill="#D9822F"/><ellipse cx="58" cy="128" rx="6" ry="4.5" fill="#D9822F"/>
+        </svg></div>
+        <div class="bubble">又长高啦<b>115.2</b>cm</div>
+      </div>
+      <div class="row2">
+        <div class="stk r1"><div class="ic">⚖️</div><div class="lab">体重</div><div class="val">21.5<span class="u">kg</span></div><div class="d">▲ 正常</div></div>
+        <div class="stk r2"><div class="ic">📊</div><div class="lab">BMI 百分位</div><div class="val">P55</div><div class="d">▲ 棒棒哒</div></div>
+      </div>
+      <div class="ribbon"><span class="em">🎉</span><div class="t">本月长高 0.6 cm<small>连续记录 6 个月</small></div><span class="badge">🏅新贴纸</span></div>
+      <div class="nav">
+        <div class="nt on"><span class="ni">🏠</span>首页</div><div class="nt"><span class="ni">📈</span>曲线</div><div></div><div class="nt"><span class="ni">🖼</span>相册</div><div class="nt"><span class="ni">⚙</span>我的</div>
+        <button class="plus"><span class="fa">🦒</span><span class="lb">记一笔</span></button>
+      </div>
+      <div class="hi"><div class="pill"></div><div class="safe-tag b">↕ 底部安全区</div></div>
+    </div></div>
+  </div>
+
+  <!-- HarmonyOS 6 -->
+  <div>
+    <div class="cap">HarmonyOS 6 · 居中挖孔<small>顶部状态栏 + 底部手势条</small></div>
+    <div class="phone3 hos"><div class="screen3">
+      <div class="sb">
+        <span class="tm">9:41</span>
+        <span class="sig">📶 🔋</span>
+        <div class="punch"></div>
+        <div class="safe-tag">↕ 顶部安全区</div>
+      </div>
+      <div class="hbar"><div class="ava">🧒</div><div><div class="nm">豆豆</div><div class="ag">5 岁 2 个月</div></div><div class="today">☀ 6月21日</div></div>
+      <div class="wall">
+        <div class="sun"></div><div class="cloud c1"></div>
+        <div class="ruler"><div class="rtick"><span>120</span></div><div class="rtick"><span>110</span></div><div class="rtick"><span>100</span></div></div>
+        <div class="giraffe"><svg viewBox="0 0 120 200">
+          <rect x="36" y="150" width="9" height="42" rx="4" fill="#E89A4A"/><rect x="52" y="150" width="9" height="42" rx="4" fill="#F4B06B"/><rect x="80" y="150" width="9" height="42" rx="4" fill="#E89A4A"/><rect x="96" y="150" width="9" height="42" rx="4" fill="#F4B06B"/>
+          <ellipse cx="70" cy="148" rx="36" ry="22" fill="#F4B06B"/>
+          <path d="M72,150 Q60,92 66,42 L82,44 Q86,96 88,150 Z" fill="#F4B06B"/>
+          <ellipse cx="74" cy="36" rx="21" ry="15" fill="#F4B06B"/><ellipse cx="90" cy="43" rx="11" ry="9" fill="#F8C68A"/>
+          <rect x="62" y="13" width="4" height="13" rx="2" fill="#F4B06B"/><circle cx="64" cy="12" r="4" fill="#7A4A1E"/>
+          <rect x="74" y="11" width="4" height="14" rx="2" fill="#F4B06B"/><circle cx="76" cy="10" r="4" fill="#7A4A1E"/>
+          <ellipse cx="58" cy="30" rx="5" ry="8" fill="#E89A4A" transform="rotate(-25 58 30)"/>
+          <circle cx="76" cy="32" r="3.2" fill="#3a2a1a"/><circle cx="77" cy="31" r="1.1" fill="#fff"/>
+          <circle cx="95" cy="43" r="1.4" fill="#7A4A1E"/>
+          <path d="M85,49 Q90,52 95,49" stroke="#7A4A1E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="66" cy="68" rx="5" ry="4" fill="#D9822F"/><ellipse cx="64" cy="92" rx="6" ry="4.5" fill="#D9822F"/><ellipse cx="80" cy="112" rx="7" ry="5" fill="#D9822F"/><ellipse cx="58" cy="128" rx="6" ry="4.5" fill="#D9822F"/>
+        </svg></div>
+        <div class="bubble">又长高啦<b>115.2</b>cm</div>
+      </div>
+      <div class="row2">
+        <div class="stk r1"><div class="ic">⚖️</div><div class="lab">体重</div><div class="val">21.5<span class="u">kg</span></div><div class="d">▲ 正常</div></div>
+        <div class="stk r2"><div class="ic">📊</div><div class="lab">BMI 百分位</div><div class="val">P55</div><div class="d">▲ 棒棒哒</div></div>
+      </div>
+      <div class="ribbon"><span class="em">🎉</span><div class="t">本月长高 0.6 cm<small>连续记录 6 个月</small></div><span class="badge">🏅新贴纸</span></div>
+      <div class="nav">
+        <div class="nt on"><span class="ni">🏠</span>首页</div><div class="nt"><span class="ni">📈</span>曲线</div><div></div><div class="nt"><span class="ni">🖼</span>相册</div><div class="nt"><span class="ni">⚙</span>我的</div>
+        <button class="plus"><span class="fa">🦒</span><span class="lb">记一笔</span></button>
+      </div>
+      <div class="hi"><div class="pill"></div><div class="safe-tag b">↕ 底部安全区</div></div>
+    </div></div>
+  </div>
+
+</div>
+
+<div class="legend">
+  <div class="pros-cons">
+    <div class="pros"><h4>怎么实现(两平台通吃)</h4><ul>
+      <li><span class="kbd">viewport-fit=cover</span> 让页面铺满到屏幕边缘(含刘海/圆角区)</li>
+      <li>顶部、底部内边距用 <span class="kbd">env(safe-area-inset-top)</span> / <span class="kbd">env(safe-area-inset-bottom)</span>——系统自动给真实数值,不用手量</li>
+      <li>iOS Safari 和 HarmonyOS 6(ArkWeb,Chromium 内核)<b>都支持</b>同一套 CSS,无需分平台代码</li>
+      <li>凸起按钮的定位也加上底部 inset,保证不被 Home 条/手势条压住</li>
+    </ul></div>
+    <div class="cons"><h4>额外的稳妥措施</h4><ul>
+      <li>状态栏背景跟随主题色(灵动岛/挖孔处透明),深浅都好看</li>
+      <li>横屏 / 大字号 /长辈模式(<span class="kbd">动态字号</span>)下重排,内容不溢出</li>
+      <li>PWA 全屏模式下也验证过 inset(添加到主屏幕后)</li>
+      <li>真机回归:iPhone(有刘海)+ 华为鸿蒙 6 各一台实测</li>
+    </ul></div>
+  </div>
+</div>

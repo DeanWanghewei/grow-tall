@@ -1,0 +1,205 @@
+<h2>其他页面 · 同款卡通风格</h2>
+<p class="subtitle">曲线页(旗舰 · WHO 百分位带 + 派生指标)、相册页(时光相册)、成长幻灯片(给孩子看)。都带安全区、拟物卡片、长颈鹿贯穿。</p>
+
+<style>
+  .wrap{ display:flex; gap:30px; flex-wrap:wrap; justify-content:center; max-width:1050px; margin:0 auto 1rem; align-items:flex-start; }
+  .cap{ text-align:center; font-weight:700; margin-bottom:8px; font-size:.98rem;}
+  .cap small{ display:block; font-weight:600; color:var(--text-secondary); font-size:.72rem; margin-top:2px;}
+  .phone3{ width:280px; border-radius:44px; padding:7px; background:#1f1f1f; position:relative; box-shadow:0 18px 40px rgba(120,70,30,.28);}
+  .screen3{ border-radius:37px; background:#FFF7EC; color:#5B3A1F; height:618px; overflow:hidden; position:relative; display:flex; flex-direction:column; }
+  .sb{ height:42px; display:flex; align-items:center; padding:0 22px; position:relative; flex-shrink:0; background:linear-gradient(180deg,rgba(255,200,140,.25),rgba(255,200,140,0));}
+  .sb .tm{ font-size:13px; font-weight:800;} .sb .sig{ margin-left:auto; font-size:11px;}
+  .island{ position:absolute; left:50%; top:8px; transform:translateX(-50%); width:92px; height:28px; background:#1f1f1f; border-radius:16px;}
+  .hbar{ display:flex; align-items:center; gap:9px; padding:4px 16px 2px;}
+  .ava{ width:40px;height:40px;border-radius:50%; background:#fff; display:flex;align-items:center;justify-content:center;font-size:21px; box-shadow:0 0 0 3px #FF8A3D, 0 4px 10px rgba(255,138,61,.3); transform:rotate(-4deg);}
+  .hbar .nm{ font-size:14px;font-weight:800;} .hbar .ag{ font-size:9.5px;color:#B98E6A;font-weight:700;}
+  .hbar .tt{ font-size:15px;font-weight:800;} .hbar .tt small{display:block;font-size:9px;color:#B98E6A;font-weight:700;}
+  .icbtn{ margin-left:auto; background:#fff; width:30px;height:30px;border-radius:50%; display:flex;align-items:center;justify-content:center;font-size:14px; box-shadow:0 3px 8px rgba(255,138,61,.18);}
+  .nav{ margin-top:auto; display:grid; grid-template-columns:1fr 1fr 72px 1fr 1fr; align-items:end; background:#fff; border-top:3px dashed #FFE3CC; padding:9px 4px 8px; position:relative;}
+  .nav .nt{ display:flex; flex-direction:column; align-items:center; gap:1px; font-size:8px; font-weight:800; color:#CBB299;}
+  .nav .nt.on{ color:#FF8A3D;} .nav .nt .ni{ font-size:16px; line-height:1;}
+  .plus{ position:absolute; left:50%; bottom:16px; transform:translateX(-50%); width:56px;height:56px;border-radius:50%; background:linear-gradient(135deg,#FFB347,#FF7A2F); border:3px solid #fff; box-shadow:0 6px 0 #C95A1E, 0 12px 18px rgba(255,106,41,.45); display:flex;align-items:center;justify-content:center; flex-direction:column; z-index:6;}
+  .plus .fa{ font-size:20px;} .plus .lb{ font-size:7px; font-weight:800; color:#fff;}
+  .hi{ height:22px; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:#fff;}
+  .hi .pill{ width:120px; height:5px; border-radius:3px; background:#C9923F; opacity:.5;}
+
+  .seg{ display:flex; background:#FFE9D6; border-radius:12px; padding:3px; gap:3px; margin:6px 12px 0;}
+  .seg div{ flex:1;text-align:center;font-size:10px;font-weight:800;padding:6px 0;border-radius:9px;color:#B98E6A;}
+  .seg .on{ background:#fff;color:#FF8A3D;box-shadow:0 3px 6px rgba(255,138,61,.18);}
+
+  .chart-card{ margin:8px 12px 0; background:#fff; border-radius:18px; padding:9px 8px 4px; box-shadow:0 5px 0 rgba(255,138,61,.12);}
+  .chart-card .ct{ font-size:9.5px; color:#B98E6A; font-weight:800; display:flex; justify-content:space-between; padding:0 4px;} .chart-card .ct b{color:#FF8A3D;}
+  .leg{ display:flex; gap:8px; justify-content:center; font-size:7.5px; color:#B98E6A; font-weight:700; margin-top:2px;}
+  .leg span{ display:flex; align-items:center; gap:3px;} .leg i{ width:10px;height:3px;border-radius:2px;display:inline-block;}
+
+  .chips2{ display:flex; gap:7px; padding:9px 12px 0;}
+  .chip2{ flex:1; background:#fff; border-radius:14px; padding:8px 7px; box-shadow:0 4px 0 rgba(255,138,61,.12); text-align:center;}
+  .chip2 .e{ font-size:16px;} .chip2 .l{ font-size:7.5px;color:#B98E6A;font-weight:800;margin-top:1px;} .chip2 .v{ font-size:13px;font-weight:800;margin-top:1px;}
+  .chip2 .v small{font-size:8px;color:#3FAE6A;}
+
+  .read{ margin:9px 12px 0; background:linear-gradient(135deg,#FFF0DA,#FFE3C2); border-radius:16px; padding:9px 10px; display:flex; gap:8px; align-items:center; border:2px dashed #FFC987;}
+  .read .gm{ font-size:26px; flex-shrink:0;} .read .tx{ font-size:10px; font-weight:700; line-height:1.4;} .read .tx b{ color:#FF7A2F;}
+
+  /* album */
+  .play-btn{ margin:6px 12px 0; background:linear-gradient(95deg,#FF8A3D,#FF6A9D); border-radius:16px; padding:11px; color:#fff; display:flex; align-items:center; gap:8px; box-shadow:0 5px 0 #C9541E; font-weight:800;}
+  .play-btn .pe{ font-size:20px;} .play-btn .pt{ font-size:12px; line-height:1.3;} .play-btn .pt small{display:block;font-weight:600;opacity:.9;font-size:8.5px;}
+  .play-btn .ar{ margin-left:auto; font-size:16px;}
+  .mile{ margin:9px 12px 0; background:#fff; border-radius:14px; padding:8px 10px; display:flex; align-items:center; gap:7px; box-shadow:0 4px 0 rgba(255,138,61,.12); font-size:10px; font-weight:800;}
+  .mile .me{ font-size:18px;} .mile small{ color:#B98E6A; font-weight:700;}
+  .grp{ padding:9px 12px 0;} .grp .gh{ font-size:9.5px; color:#B98E6A; font-weight:800; display:flex; justify-content:space-between; margin-bottom:5px;} .grp .gh b{ color:#5B3A1F;}
+  .film{ display:flex; gap:6px; overflow:hidden;}
+  .pol{ width:54px; flex-shrink:0; background:#fff; border-radius:5px; padding:3px 3px 8px; box-shadow:0 4px 8px rgba(120,70,30,.14);}
+  .pol .shot{ width:100%;height:46px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .pol.r1{transform:rotate(-3deg);} .pol.r2{transform:rotate(2deg);}
+
+  /* slideshow */
+  .ss-screen{ background:linear-gradient(180deg,#3a2a5c,#5B3A1F);}
+  .ss-screen .sb .tm{color:#FFD15C;} .ss-screen .sb .sig{color:#FFD15C;}
+  .ss-stage{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 16px; position:relative;}
+  .ss-frame{ background:#fff; border-radius:14px; padding:7px 7px 10px; box-shadow:0 12px 30px rgba(0,0,0,.4); transform:rotate(-2deg); position:relative;}
+  .ss-frame .ph{ width:180px;height:200px;border-radius:8px; display:flex;align-items:center;justify-content:center;font-size:64px; background:linear-gradient(160deg,#FFD3A5,#FF8A3D);}
+  .ss-frame .cap{ font-size:9.5px;font-weight:800;color:#5B3A1F;text-align:center;margin-top:5px;}
+  .ss-cap2{ margin-top:12px; background:rgba(255,255,255,.94); border-radius:14px; padding:8px 12px; text-align:center; box-shadow:0 6px 16px rgba(0,0,0,.3);}
+  .ss-cap2 .a{ font-size:13px;font-weight:800;} .ss-cap2 .s{ font-size:9.5px;color:#B98E6A;font-weight:700;margin-top:2px;} .ss-cap2 .s b{color:#FF7A2F;}
+  .ss-cmp{ margin-top:10px; display:flex; gap:6px; align-items:center; background:rgba(255,255,255,.14); border:1px dashed rgba(255,255,255,.4); border-radius:12px; padding:6px 10px; color:#fff; font-size:9.5px; font-weight:800;}
+  .ss-cmp .mini{ font-size:20px;} .ss-cmp b{color:#FFD15C;}
+  .floats .f{ position:absolute; font-size:16px; animation:tw 2.4s infinite;}
+  .ss-ctrl{ display:flex; align-items:center; justify-content:center; gap:14px; padding:8px 0 6px;}
+  .ss-ctrl .c{ color:#fff; font-size:18px; opacity:.85;} .ss-ctrl .play{ width:42px;height:42px;border-radius:50%; background:#fff; display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .dots{ display:flex; gap:4px; justify-content:center; padding-bottom:4px;} .dots i{ width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);} .dots i.on{background:#FFD15C;width:16px;border-radius:3px;}
+  @keyframes tw{0%,100%{opacity:.4;transform:translateY(0) scale(.9)}50%{opacity:1;transform:translateY(-6px) scale(1.1)}}
+</style>
+
+<div class="wrap">
+
+  <!-- CURVE -->
+  <div>
+    <div class="cap">📈 成长曲线 · 旗舰<small>WHO 百分位带 + 派生指标</small></div>
+    <div class="phone3"><div class="screen3">
+      <div class="sb"><span class="tm">9:41</span><span class="sig">📶 🔋</span><div class="island"></div></div>
+      <div class="hbar"><div class="ava">🧒</div><div><div class="nm">豆豆</div><div class="ag">5 岁 2 个月</div></div><div class="icbtn">▾</div></div>
+      <div class="seg"><div class="on">📏 身高</div><div>⚖️ 体重</div><div>📊 BMI</div></div>
+      <div class="chart-card">
+        <div class="ct"><span>身高/年龄 · WHO 标准</span><b>P68</b></div>
+        <svg viewBox="0 0 320 190" style="width:100%;height:170px;display:block">
+          <line x1="28" y1="137" x2="308" y2="137" stroke="#F2E2CB" stroke-width="1"/>
+          <line x1="28" y1="88" x2="308" y2="88" stroke="#F2E2CB" stroke-width="1"/>
+          <line x1="28" y1="39" x2="308" y2="39" stroke="#F2E2CB" stroke-width="1"/>
+          <text x="6" y="140" font-size="8" fill="#B98E6A">80</text>
+          <text x="6" y="91" font-size="8" fill="#B98E6A">100</text>
+          <text x="4" y="42" font-size="8" fill="#B98E6A">120</text>
+          <!-- band P3..P97 -->
+          <path d="M28,162 L75,135 L121,115 L168,95 L215,78 L261,61 L308,44 L308,14 L261,31 L215,49 L168,66 L121,86 L75,105 L28,132 Z" fill="#FF8A3D" opacity=".12"/>
+          <!-- P50 dashed -->
+          <polyline points="28,147 75,120 121,100 168,81 215,63 261,46 308,29" fill="none" stroke="#E8B27A" stroke-width="1.6" stroke-dasharray="4 3" stroke-linecap="round"/>
+          <!-- child -->
+          <polyline points="75,118 121,98 168,78 215,61 224,51" fill="none" stroke="#FF7A2F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="75" cy="118" r="3" fill="#FF7A2F" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="121" cy="98" r="3" fill="#FF7A2F" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="168" cy="78" r="3" fill="#FF7A2F" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="215" cy="61" r="3" fill="#FF7A2F" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="224" cy="51" r="5" fill="#FF7A2F" stroke="#fff" stroke-width="2"/>
+          <!-- callout -->
+          <line x1="224" y1="51" x2="224" y2="34" stroke="#FF7A2F" stroke-width="1.4"/>
+          <rect x="196" y="18" width="58" height="16" rx="8" fill="#FF7A2F"/>
+          <text x="225" y="29" font-size="8.5" fill="#fff" font-weight="700" text-anchor="middle">115.2 P68</text>
+          <text x="28" y="182" font-size="8" fill="#B98E6A">1岁</text>
+          <text x="168" y="182" font-size="8" fill="#B98E6A">4岁</text>
+          <text x="296" y="182" font-size="8" fill="#B98E6A">7岁</text>
+        </svg>
+        <div class="leg"><span><i style="background:#FF8A3D;opacity:.3"></i>P3~P97 正常范围</span><span><i style="background:#E8B27A"></i>P50 中位</span><span><i style="background:#FF7A2F"></i>豆豆</span></div>
+      </div>
+      <div class="chips2">
+        <div class="chip2"><div class="e">📏</div><div class="l">预测成年身高</div><div class="v">≈175<small>cm</small></div></div>
+        <div class="chip2"><div class="e">🌱</div><div class="l">发育阶段</div><div class="v">学龄期</div></div>
+        <div class="chip2"><div class="e">📊</div><div class="l">BMI</div><div class="v">P55<small> 正常</small></div></div>
+      </div>
+      <div class="read"><div class="gm">🦒</div><div class="tx">豆豆身高在同龄人里<b>偏上(P68)</b>,长得很好!继续保持充足睡眠和运动哦~</div></div>
+      <div class="nav">
+        <div class="nt"><span class="ni">🏠</span>首页</div><div class="nt on"><span class="ni">📈</span>曲线</div><div></div><div class="nt"><span class="ni">🖼</span>相册</div><div class="nt"><span class="ni">⚙</span>我的</div>
+        <button class="plus"><span class="fa">🦒</span><span class="lb">记一笔</span></button>
+      </div>
+      <div class="hi"><div class="pill"></div></div>
+    </div></div>
+  </div>
+
+  <!-- ALBUM -->
+  <div>
+    <div class="cap">🖼 时光相册<small>按年龄归档 · 一键幻灯片</small></div>
+    <div class="phone3"><div class="screen3">
+      <div class="sb"><span class="tm">9:41</span><span class="sig">📶 🔋</span><div class="island"></div></div>
+      <div class="hbar"><div class="tt">🖼 时光相册<small>199 张照片 · 5 年成长</small></div></div>
+      <button class="play-btn"><span class="pe">▶</span><div class="pt">播放成长幻灯片<small>从出生到现在 · 30秒</small></div><span class="ar">›</span></button>
+      <div class="mile"><span class="me">⭐</span>成长里程碑<small style="margin-left:auto">第一次站立 · 100天</small></div>
+      <div class="grp"><div class="gh"><span>🎂 5 岁</span><b>42 张</b></div>
+        <div class="film">
+          <div class="pol r1"><div class="shot" style="background:linear-gradient(135deg,#FFD3A5,#FF8A3D)">😊</div></div>
+          <div class="pol r2"><div class="shot" style="background:linear-gradient(135deg,#A8E6CF,#56C596)">🌳</div></div>
+          <div class="pol r1"><div class="shot" style="background:linear-gradient(135deg,#FFC1D8,#FF7AA8)">🎈</div></div>
+          <div class="pol"><div class="shot" style="background:linear-gradient(135deg,#BFC7FF,#7C5CFF)">🎂</div></div>
+        </div>
+      </div>
+      <div class="grp"><div class="gh"><span>🎒 4 岁</span><b>38 张</b></div>
+        <div class="film">
+          <div class="pol r2"><div class="shot" style="background:linear-gradient(135deg,#FFF1A8,#FFB347)">⚽</div></div>
+          <div class="pol r1"><div class="shot" style="background:linear-gradient(135deg,#A8E6CF,#56C596)">🐰</div></div>
+          <div class="pol"><div class="shot" style="background:linear-gradient(135deg,#FFD3A5,#FF8A3D)">🚲</div></div>
+          <div class="pol r2"><div class="shot" style="background:linear-gradient(135deg,#BFC7FF,#7C5CFF)">🎒</div></div>
+        </div>
+      </div>
+      <div class="grp"><div class="gh"><span>🍼 0-3 岁</span><b>119 张</b></div>
+        <div class="film">
+          <div class="pol r1"><div class="shot" style="background:linear-gradient(135deg,#FFE0EC,#FF9EC4)">🍼</div></div>
+          <div class="pol"><div class="shot" style="background:linear-gradient(135deg,#D4F1FF,#7BC8FF)">👶</div></div>
+          <div class="pol r2"><div class="shot" style="background:linear-gradient(135deg,#FFF1A8,#FFB347)">🎂</div></div>
+        </div>
+      </div>
+      <div class="nav">
+        <div class="nt"><span class="ni">🏠</span>首页</div><div class="nt"><span class="ni">📈</span>曲线</div><div></div><div class="nt on"><span class="ni">🖼</span>相册</div><div class="nt"><span class="ni">⚙</span>我的</div>
+        <button class="plus"><span class="fa">🦒</span><span class="lb">记一笔</span></button>
+      </div>
+      <div class="hi"><div class="pill"></div></div>
+    </div></div>
+  </div>
+
+  <!-- SLIDESHOW -->
+  <div>
+    <div class="cap">🎞 成长幻灯片<small>给孩子看 · 自动播放</small></div>
+    <div class="phone3"><div class="screen3 ss-screen">
+      <div class="sb"><span class="tm">9:41</span><span class="sig">📶 🔋</span><div class="island"></div></div>
+      <div class="ss-stage">
+        <div class="floats">
+          <div class="f" style="top:6px;left:24px">💛</div>
+          <div class="f" style="top:40px;right:20px;animation-delay:.5s">✨</div>
+          <div class="f" style="top:120px;left:10px;animation-delay:1s">⭐</div>
+          <div class="f" style="top:180px;right:12px;animation-delay:1.4s">💛</div>
+        </div>
+        <div class="ss-frame">
+          <div class="ph">🧒</div>
+          <div class="cap">3 岁 2 个月 · 2024年8月</div>
+        </div>
+        <div class="ss-cap2"><div class="a">豆豆的 3 岁</div><div class="s">身高 <b>98cm</b> · 体重 <b>15kg</b></div></div>
+        <div class="ss-cmp"><span class="mini">🍼</span>从出生 50cm <b>→</b> 现在 115.2cm<span class="mini">🦒</span></div>
+        <div class="ss-ctrl"><span class="c">⏮</span><div class="play">⏸</div><span class="c">⏭</span></div>
+        <div class="dots"><i></i><i></i><i class="on"></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="hi" style="background:transparent"><div class="pill" style="background:rgba(255,255,255,.5)"></div></div>
+    </div></div>
+  </div>
+
+</div>
+
+<div style="max-width:1050px;margin:0 auto;">
+  <div class="pros-cons">
+    <div class="pros"><h4>三页的设计要点</h4><ul>
+      <li><b>曲线页</b>:浅色带 = P3~P97 正常范围、虚线 = P50 中位、粗线 = 自己孩子,一眼看懂「在不在正常区」。下方派生指标(预测身高/发育阶段/BMI)+ 长颈鹿一句话解读</li>
+      <li><b>相册页</b>:按年龄归档成「胶片」,顶部大按钮一键放幻灯片,还有成长里程碑标记</li>
+      <li><b>幻灯片</b>:大照片 + 当时的身高体重 + 「从 50cm→115cm」成长对比,飘心心星星,自动播放,专为吸引孩子设计</li>
+    </ul></div>
+    <div class="cons"><h4>还差「设置类」页面</h4><ul>
+      <li>下一批:我的(孩子管理)+ <b>主题选择器</b>(多主题切换)+ <b>图片存储 S3 配置</b>(含未配置提示)</li>
+      <li>主题选择器会展示三套主题的实时预览,点一下整盘换色</li>
+      <li>S3 未配置时点上传 → 友好弹层「先去配置存储」→ 跳配置表单</li>
+    </ul></div>
+  </div>
+</div>
