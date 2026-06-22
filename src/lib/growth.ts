@@ -36,11 +36,25 @@ export function lmsToPercentile(
   return Math.round(normalCdf(lmsToZ(value, lms)) * 100);
 }
 
+/** LMS 逆函数:由 z 分反推测量值(画百分位带用)。 */
+export function lmsValueAtZ(z: number, lms: { L: number; M: number; S: number }): number {
+  const { L, M, S } = lms;
+  if (L === 0) return M * Math.exp(S * z);
+  return M * Math.pow(1 + L * S * z, 1 / L);
+}
+
 export function bmi(weightKg: number, heightM: number): number {
   return weightKg / (heightM * heightM);
 }
 
 /** 在 LMS 表中按 age 线性插值找到 L/M/S(表外取端点)。 */
+export function lmsAtAge(
+  table: LmsTable,
+  age: number,
+): { L: number; M: number; S: number } {
+  return interpolate(table, age);
+}
+
 function interpolate(
   table: LmsTable,
   age: number,

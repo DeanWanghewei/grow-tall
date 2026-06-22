@@ -6,6 +6,7 @@ import {
   percentileFromLmsTable,
   midParentalHeight,
   devStage,
+  lmsValueAtZ,
 } from './growth';
 import sample from '../../data/who/lhfa-boys-sample.json';
 
@@ -40,5 +41,12 @@ describe('growth', () => {
     expect(devStage(3, 'MALE')).toBe('学龄前');
     expect(devStage(11, 'FEMALE')).toBe('青春期');
     expect(devStage(11, 'MALE')).toBe('学龄期');
+  });
+
+  it('lmsValueAtZ:与 lmsToZ 互逆,z=0 时为 M', () => {
+    const lms = { L: 1, M: 100, S: 0.1 };
+    expect(lmsValueAtZ(0, lms)).toBeCloseTo(100, 6); // P50 = M
+    const z = 1.5;
+    expect(lmsToZ(lmsValueAtZ(z, lms), lms)).toBeCloseTo(z, 6);
   });
 });
