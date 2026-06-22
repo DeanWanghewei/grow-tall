@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite 不支持 enum,gender 用字符串;应用层用 zod 约束为 MALE|FEMALE|OTHER。
+model Child {
+  id            String   @id @default(cuid())
+  name          String
+  gender        String   @default("OTHER")
+  birthDate     DateTime
+  themeId       String   @default("warm")
+  avatarKey     String?
+  fatherHeight  Float?
+  motherHeight  Float?
+  createdAt     DateTime @default(now())
+  records       Record[]
+  photos        Photo[]
+}
+
+model Record {
+  id        String   @id @default(cuid())
+  childId   String
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  date      DateTime
+  height    Float?
+  weight    Float?
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([childId, date])
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  childId   String
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  recordId  String?
+  s3Key     String
+  takenAt   DateTime
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  id           String   @id @default("singleton")
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
