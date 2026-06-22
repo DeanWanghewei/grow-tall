@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { AppShell } from '@/components/AppShell';
 import { GrowthChart } from '@/components/GrowthChart';
 import { useRecordSheet } from '@/components/RecordSheet';
+import { useTheme } from '@/lib/useTheme';
 
 type GrowthResp = {
   child: { name: string };
@@ -30,7 +31,7 @@ const METRICS: { key: Metric; label: string; icon: string; unit: string }[] = [
 
 export default function CurvesPage() {
   const { open } = useRecordSheet();
-  const [children, setChildren] = useState<{ id: string; name: string }[]>([]);
+  const [children, setChildren] = useState<{ id: string; name: string; themeId: string }[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [metric, setMetric] = useState<Metric>('height');
   const [data, setData] = useState<GrowthResp | null>(null);
@@ -48,6 +49,9 @@ export default function CurvesPage() {
     if (!activeId) return;
     fetch(`/api/growth/${activeId}`).then((r) => r.json()).then(setData);
   }, [activeId]);
+
+  const active = children.find((c) => c.id === activeId);
+  useTheme(active?.themeId);
 
   const option = useMemo(() => (data ? buildOption(data, metric) : {}), [data, metric]);
   const m = METRICS.find((x) => x.key === metric)!;

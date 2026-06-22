@@ -4,8 +4,9 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AppShell } from '@/components/AppShell';
 import { useRecordSheet } from '@/components/RecordSheet';
+import { useTheme } from '@/lib/useTheme';
 
-type Child = { id: string; name: string; birthDate: string };
+type Child = { id: string; name: string; birthDate: string; themeId: string };
 type Photo = { id: string; takenAt: string; url: string };
 
 function ageLabel(birth: string, at: string): string {
@@ -36,6 +37,7 @@ export default function AlbumPage() {
   }, [activeId]);
 
   const active = children.find((c) => c.id === activeId);
+  useTheme(active?.themeId);
 
   // 按年龄分组(降序)
   const groups = useMemo(() => {

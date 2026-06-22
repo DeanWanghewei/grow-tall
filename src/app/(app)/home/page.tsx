@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { AppShell } from '@/components/AppShell';
 import { GrowthWall } from '@/components/GrowthWall';
 import { useRecordSheet } from '@/components/RecordSheet';
+import { useTheme } from '@/lib/useTheme';
 
 type Child = {
   id: string;
@@ -42,6 +43,7 @@ export default function HomePage() {
   }, [activeId]);
 
   const active = children.find((c) => c.id === activeId);
+  useTheme(active?.themeId);
   const latest = records.at(-1);
 
   return (
