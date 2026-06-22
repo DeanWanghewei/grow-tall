@@ -1,26 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 安全区(iOS 灵动岛 / 鸿蒙手势条) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* 默认 = 暖阳长颈鹿主题(与 <html data-theme="warm"> 对应)。
+     主题切换(Phase 3)通过覆盖这些变量即时生效。 */
+  --bg: #FFF7EC;
+  --bg-frame: #F0C089;
+  --card: #FFFFFF;
+  --ink: #5B3A1F;
+  --muted: #B98E6A;
+  --primary: #FF8A3D;
+  --primary-2: #FFB347;
+  --accent: #FF6B6B;
+  --success: #3FAE6A;
+  --band: rgba(255, 138, 61, 0.12);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
