@@ -118,4 +118,4 @@ docs/                   # 设计规格 + UI 草稿
 
 ## License
 
-MIT
+[Apache License 2.0](LICENSE)
