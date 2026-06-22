@@ -2,6 +2,7 @@
   "name": "grow-tall",
   "version": "0.1.0",
   "private": true,
+  "description": "手机优先的卡通化儿童成长记录工具:身高/体重记录、WHO 百分位成长曲线、多孩子多主题、时光相册与成长幻灯片,自托管 Docker PWA。",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
