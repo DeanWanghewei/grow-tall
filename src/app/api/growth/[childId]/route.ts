@@ -70,8 +70,21 @@ export async function GET(_req: Request, { params }: { params: Promise<{ childId
   let bmiPercentile = null;
   if (bmiTable && latestBmi != null) {
     const la = latest?.date ? Math.round(ageMonths(birth, latest.date)) : ageNowMo;
-    bmiBands = buildBands(bmiTable, 60, capAge(ageNowMo + 24), 3);
-    if (la >= 60) bmiPercentile = percentileFromLmsTable(latestBmi, la, bmiTable);
+    bmiBands = buildBands(bmiTable, 0, capAge(ageNowMo + 24), 3);
+    bmiPercentile = percentileFromLmsTable(latestBmi, la, bmiTable);
+  }
+
+  // 体重百分位(WHO 标准 0–60 + 2007 参考 61–120 月 = 0–10 岁)
+  const weightTable = await getLmsTable('wfa', gender);
+  let weightBands = null;
+  let weightPercentile = null;
+  if (weightTable && latest?.weight) {
+    weightBands = buildBands(weightTable, 0, capAge(ageNowMo + 24), 3);
+    weightPercentile = percentileFromLmsTable(
+      latest.weight,
+      Math.round(ageMonths(birth, latest.date)),
+      weightTable,
+    );
   }
 
   return NextResponse.json({
@@ -86,8 +99,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ childId
       latestBmi,
       heightPercentile,
       bmiPercentile,
+      weightPercentile,
     },
-    bands: { height: heightBands, bmi: bmiBands },
+    bands: { height: heightBands, bmi: bmiBands, weight: weightBands },
     bandsReason,
   });
 }

@@ -18,10 +18,12 @@ type GrowthResp = {
     latestBmi: number | null;
     heightPercentile: number | null;
     bmiPercentile: number | null;
+    weightPercentile: number | null;
   };
   bands: {
     height: Band | null;
     bmi: Band | null;
+    weight: Band | null;
   };
   bandsReason: 'ok' | 'other-gender' | 'missing-data';
 };
@@ -98,6 +100,12 @@ export default function CurvesPage() {
           {metric === 'height' && data?.derived.heightPercentile != null && (
             <b style={{ color: 'var(--primary)' }}>P{data.derived.heightPercentile}</b>
           )}
+          {metric === 'weight' && data?.derived.weightPercentile != null && (
+            <b style={{ color: 'var(--primary)' }}>P{data.derived.weightPercentile}</b>
+          )}
+          {metric === 'bmi' && data?.derived.bmiPercentile != null && (
+            <b style={{ color: 'var(--primary)' }}>P{data.derived.bmiPercentile}</b>
+          )}
         </div>
         {data ? <GrowthChart option={option} /> : <div style={{ height: 280 }} />}
         {metric === 'height' && data && data.bandsReason !== 'ok' && (
@@ -156,7 +164,8 @@ function buildOption(data: GrowthResp, metric: Metric): Record<string, unknown> 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const series: any[] = [];
 
-  const bandSet = metric === 'height' ? data.bands?.height : metric === 'bmi' ? data.bands?.bmi : null;
+  const bandSet =
+    metric === 'height' ? data.bands?.height : metric === 'bmi' ? data.bands?.bmi : metric === 'weight' ? data.bands?.weight : null;
   if (bandSet) {
     const b = bandSet;
     series.push({
