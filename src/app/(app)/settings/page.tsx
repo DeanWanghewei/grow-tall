@@ -45,10 +45,12 @@ export default function SettingsPage() {
     if (!name) return;
     const bd = window.prompt('出生日期(YYYY-MM-DD)', '2021-01-01');
     if (!bd) return;
+    const g = window.prompt('性别(输入 男 或 女,影响百分位对比)', '男');
+    const gender = g === '女' ? 'FEMALE' : g === '男' ? 'MALE' : 'OTHER';
     const res = await fetch('/api/children', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, gender: 'OTHER', birthDate: new Date(bd).toISOString() }),
+      body: JSON.stringify({ name, gender, birthDate: new Date(bd).toISOString() }),
     });
     const d = await res.json();
     if (d.child) {

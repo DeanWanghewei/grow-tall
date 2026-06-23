@@ -43,8 +43,13 @@ export async function GET(_req: Request, { params }: { params: Promise<{ childId
   const latestBmi =
     latest?.height && latest?.weight ? +bmi(latest.weight, latest.height / 100).toFixed(1) : null;
 
-  // 百分位带 + 当前百分位(需 WHO LMS 数据)
+  // 百分位带 + 当前百分位(需 WHO LMS 数据 + 已知性别)
   const heightTable = await getLmsTable('lhfa', gender);
+  let bandsReason: 'ok' | 'other-gender' | 'missing-data';
+  if (gender === 'OTHER') bandsReason = 'other-gender';
+  else if (heightTable) bandsReason = 'ok';
+  else bandsReason = 'missing-data';
+
   let heightBands = null;
   let heightPercentile = null;
   if (heightTable && latest?.height) {
@@ -70,6 +75,6 @@ export async function GET(_req: Request, { params }: { params: Promise<{ childId
       heightPercentile,
     },
     bands: { height: heightBands },
-    hasReferenceData: !!heightTable,
+    bandsReason,
   });
 }

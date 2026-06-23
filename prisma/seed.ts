@@ -5,11 +5,11 @@ const prisma = new PrismaClient();
 async function main() {
   const child = await prisma.child.upsert({
     where: { id: 'seed-child-1' },
-    update: {},
+    update: { gender: 'MALE' },
     create: {
       id: 'seed-child-1',
       name: '豆豆',
-      gender: 'OTHER',
+      gender: 'MALE',
       birthDate: new Date('2021-04-01'),
       themeId: 'warm',
       fatherHeight: 178,

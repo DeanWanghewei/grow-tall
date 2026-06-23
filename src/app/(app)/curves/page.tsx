@@ -19,7 +19,7 @@ type GrowthResp = {
     heightPercentile: number | null;
   };
   bands: { height: { ages: number[]; p3: number[]; p50: number[]; p97: number[] } | null };
-  hasReferenceData: boolean;
+  bandsReason: 'ok' | 'other-gender' | 'missing-data';
 };
 
 type Metric = 'height' | 'weight' | 'bmi';
@@ -94,9 +94,11 @@ export default function CurvesPage() {
           )}
         </div>
         {data ? <GrowthChart option={option} /> : <div style={{ height: 280 }} />}
-        {metric === 'height' && data && !data.hasReferenceData && (
+        {metric === 'height' && data && data.bandsReason !== 'ok' && (
           <p className="mt-1 text-center text-[10px]" style={{ color: 'var(--muted)' }}>
-            百分位参考带需添加 WHO 数据(见 data/who/README);上方为孩子的成长轨迹
+            {data.bandsReason === 'other-gender'
+              ? '设置孩子性别(男/女)后显示 WHO 百分位带;上方为孩子的成长轨迹'
+              : '百分位参考带需添加 WHO 数据(见 data/who/README);上方为孩子的成长轨迹'}
           </p>
         )}
       </div>
@@ -109,7 +111,7 @@ export default function CurvesPage() {
         </div>
       )}
 
-      {data && data.hasReferenceData && data.derived.heightPercentile != null && (
+      {data && data.bandsReason === 'ok' && data.derived.heightPercentile != null && (
         <div className="mx-3 mb-6 flex items-center gap-2 rounded-2xl p-3" style={{ background: 'linear-gradient(135deg,#FFF0DA,#FFE3C2)', border: '2px dashed #FFC987' }}>
           <span className="text-2xl">🦒</span>
           <span className="text-xs font-bold leading-tight" style={{ color: 'var(--ink)' }}>
