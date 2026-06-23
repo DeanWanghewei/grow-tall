@@ -36,13 +36,19 @@ export default function LoginPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: pw }),
     });
-    if (r.ok) {
-      router.push('/home');
-      router.refresh();
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      setErr(j.error ?? '出错啦');
       return;
     }
-    const j = await r.json().catch(() => ({}));
-    setErr(j.error ?? '出错啦');
+    // 校验会话 cookie 是否真的被浏览器保存(HTTP 下 Secure cookie 会被丢弃 → 这里能探测到)
+    const c = await fetch('/api/auth/check').then((x) => x.json()).catch(() => ({ authed: false }));
+    if (!c.authed) {
+      setErr('登录未生效:会话 cookie 没被保存。若是 HTTP 访问,请设 SESSION_COOKIE_SECURE=false 后重启;或改用 HTTPS。');
+      return;
+    }
+    router.push('/home');
+    router.refresh();
   }
 
   return (

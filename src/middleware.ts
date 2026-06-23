@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
 const COOKIE = 'gt_session';
-const PUBLIC = ['/', '/login', '/api/auth/setup', '/api/auth/login'];
+const PUBLIC = ['/', '/login', '/api/auth/setup', '/api/auth/login', '/api/auth/check'];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
