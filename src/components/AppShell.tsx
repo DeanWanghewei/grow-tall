@@ -31,9 +31,14 @@ export function AppShell({
         {children}
       </main>
       <nav
-        className="fixed bottom-0 left-0 right-0 grid grid-cols-[1fr_1fr_72px_1fr_1fr] items-end bg-white"
+        className="fixed bottom-0 left-0 right-0 grid grid-cols-[1fr_1fr_72px_1fr_1fr] items-end"
         style={{
-          borderTop: '3px dashed #FFE3CC',
+          // 毛玻璃 + 光影感
+          background: 'rgba(255,255,255,.82)',
+          backdropFilter: 'blur(14px)',
+          WebkitBackdropFilter: 'blur(14px)',
+          borderTop: '1px solid rgba(255,138,61,.18)',
+          boxShadow: '0 -6px 22px rgba(120,70,30,.12)',
           paddingBottom: 'var(--safe-bottom)',
           zIndex: 40,
         }}
@@ -48,20 +53,20 @@ export function AppShell({
         <motion.button
           aria-label="记一笔"
           onClick={onRecord}
-          className="absolute left-1/2 w-14 h-14 rounded-full border-[3px] border-white flex flex-col items-center justify-center text-white"
+          className="absolute left-1/2 flex h-16 w-16 flex-col items-center justify-center rounded-full border-[3px] border-white text-white"
           style={{
             // 用 framer 的 x 而非 Tailwind 的 -translate-x-1/2,避免被 animate 的 transform 覆盖导致不居中
             x: '-50%',
-            bottom: 'calc(var(--safe-bottom) + 16px)',
+            bottom: 'calc(var(--safe-bottom) + 20px)',
             zIndex: 50,
             background: 'linear-gradient(135deg, var(--primary-2), var(--primary))',
-            boxShadow:
-              '0 6px 0 color-mix(in srgb, var(--primary) 70%, black), 0 12px 18px rgba(0,0,0,.2)',
+            // 软发光阴影,不再用硬偏移「圆盘」(去掉多余圆环)
+            boxShadow: '0 8px 18px rgba(255,106,41,.45)',
           }}
           animate={{ rotate: [-4, 4, -4] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <span className="text-xl leading-none">🦒</span>
+          <span className="text-2xl leading-none">🦒</span>
           <span className="text-[7px] font-extrabold">记一笔</span>
         </motion.button>
       </nav>
@@ -73,10 +78,12 @@ function Tab({ href, icon, label, active }: { href: string; icon: string; label:
   return (
     <Link
       href={href}
-      className="flex flex-col items-center gap-px text-[8px] font-extrabold py-2"
-      style={{ color: active ? 'var(--primary)' : '#CBB299' }}
+      className="flex flex-col items-center gap-0.5 py-2.5 text-[9px] font-extrabold"
+      style={{ color: active ? 'var(--primary)' : '#B9A48C' }}
     >
-      <span className="text-base leading-none">{icon}</span>
+      <span className="text-xl leading-none" style={{ filter: active ? 'drop-shadow(0 2px 3px rgba(255,138,61,.35))' : 'none' }}>
+        {icon}
+      </span>
       {label}
     </Link>
   );

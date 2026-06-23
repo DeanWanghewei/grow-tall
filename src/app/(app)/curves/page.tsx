@@ -155,37 +155,73 @@ function buildOption(data: GrowthResp, metric: Metric): Record<string, unknown> 
     series.push({
       name: '正常范围', type: 'line', stack: 'range', symbol: 'none', silent: true, z: 1,
       data: b.ages.map((a, i) => [a, +(b.p97[i] - b.p3[i]).toFixed(1)]),
-      lineStyle: { opacity: 0 }, areaStyle: { color: 'rgba(255,138,61,.14)' },
+      lineStyle: { opacity: 0 }, areaStyle: { color: 'rgba(255,179,71,.16)' },
     });
     series.push({
       name: 'P50 中位', type: 'line', symbol: 'none', silent: true, z: 2,
       data: b.ages.map((a, i) => [a, b.p50[i]]),
-      lineStyle: { color: '#E8B27A', width: 1.4, type: 'dashed' },
+      lineStyle: { color: '#E8B27A', width: 1.6, type: [6, 4] },
     });
   }
 
+  // 孩子的成长线:粗彩线 + 渐变填充 + 大圆点(让小朋友一眼看到自己的成长)
   series.push({
-    name: '我的数据', type: 'line', smooth: true, z: 5,
+    name: '我的数据',
+    type: 'line',
+    smooth: true,
+    z: 6,
     data: childData,
-    lineStyle: { color: '#FF7A2F', width: 3 }, itemStyle: { color: '#FF7A2F' }, symbolSize: 7,
+    lineStyle: { color: '#FF7A2F', width: 4, shadowColor: 'rgba(255,122,47,.35)', shadowBlur: 8 },
+    itemStyle: { color: '#FF7A2F', borderColor: '#fff', borderWidth: 2.5 },
+    symbol: 'circle',
+    symbolSize: 11,
+    areaStyle: {
+      color: {
+        type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+        colorStops: [
+          { offset: 0, color: 'rgba(255,138,61,.28)' },
+          { offset: 1, color: 'rgba(255,138,61,0)' },
+        ],
+      },
+    },
+    emphasis: { focus: 'series', scale: 1.4 },
   });
 
   return {
-    grid: { left: 38, right: 16, top: 28, bottom: 28 },
+    grid: { left: 40, right: 18, top: 24, bottom: 30 },
     xAxis: {
       type: 'value', name: '月', min: 0,
-      nameTextStyle: { fontSize: 10 },
-      splitLine: { lineStyle: { color: '#F2E2CB' } },
-      axisLabel: { fontSize: 10 },
+      nameTextStyle: { color: '#B98E6A', fontSize: 10, padding: [6, 0, 0, 0] },
+      axisLine: { lineStyle: { color: '#E8C79A' } },
+      axisTick: { show: false },
+      axisLabel: { color: '#B98E6A', fontSize: 10 },
+      splitLine: { lineStyle: { color: 'rgba(232,199,154,.45)', type: [4, 4] } },
     },
     yAxis: {
       type: 'value', name: unit, scale: true,
-      nameTextStyle: { fontSize: 10 },
-      splitLine: { lineStyle: { color: '#F2E2CB' } },
-      axisLabel: { fontSize: 10 },
+      nameTextStyle: { color: '#B98E6A', fontSize: 10 },
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: '#B98E6A', fontSize: 10 },
+      splitLine: { lineStyle: { color: 'rgba(232,199,154,.45)', type: [4, 4] } },
     },
     series,
-    legend: { show: metric === 'height', top: 0, right: 4, textStyle: { fontSize: 9 } },
-    tooltip: { trigger: 'axis' },
+    legend: {
+      show: metric === 'height', top: 0, right: 4,
+      textStyle: { fontSize: 9, color: '#8a6a4a' },
+      itemWidth: 14, itemHeight: 8, icon: 'roundRect',
+    },
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(255,247,236,.96)',
+      borderColor: '#FFC987',
+      borderWidth: 1,
+      textStyle: { color: '#5B3A1F', fontSize: 11 },
+      formatter: (ps: { seriesName: string; value: number[] }[]) =>
+        ps
+          .filter((p) => ['我的数据', 'P50 中位'].includes(p.seriesName) && p.value?.[1] != null)
+          .map((p) => `${p.seriesName}: ${p.value[1]}${unit}`)
+          .join('<br/>'),
+    },
   };
 }

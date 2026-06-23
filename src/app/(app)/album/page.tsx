@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AppShell } from '@/components/AppShell';
 import { useRecordSheet } from '@/components/RecordSheet';
+import { PhotoInput } from '@/components/PhotoInput';
 import { useTheme } from '@/lib/useTheme';
 
 type Child = { id: string; name: string; birthDate: string; themeId: string };
@@ -33,8 +34,14 @@ export default function AlbumPage() {
 
   useEffect(() => {
     if (!activeId) return;
-    fetch(`/api/photos?childId=${activeId}`).then((r) => r.json()).then((d) => setPhotos(d.photos));
+    reload();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId]);
+
+  function reload() {
+    if (!activeId) return;
+    fetch(`/api/photos?childId=${activeId}`).then((r) => r.json()).then((d) => setPhotos(d.photos));
+  }
 
   const active = children.find((c) => c.id === activeId);
   useTheme(active?.themeId);
@@ -60,6 +67,18 @@ export default function AlbumPage() {
           {photos.length} 张照片 · 成长瞬间
         </p>
       </div>
+
+      {activeId && (
+        <div className="px-3">
+          <PhotoInput
+            childId={activeId}
+            onUploaded={reload}
+            label="＋ 添加成长照"
+            className="w-full rounded-2xl border-2 border-dashed px-4 py-3 text-sm font-extrabold"
+            style={{ borderColor: 'var(--primary-2)', color: 'var(--primary)', background: 'var(--card)' }}
+          />
+        </div>
+      )}
 
       {photos.length > 0 ? (
         <Link
