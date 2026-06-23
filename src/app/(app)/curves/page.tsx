@@ -17,10 +17,16 @@ type GrowthResp = {
     latestWeight: number | null;
     latestBmi: number | null;
     heightPercentile: number | null;
+    bmiPercentile: number | null;
   };
-  bands: { height: { ages: number[]; p3: number[]; p50: number[]; p97: number[] } | null };
+  bands: {
+    height: Band | null;
+    bmi: Band | null;
+  };
   bandsReason: 'ok' | 'other-gender' | 'missing-data';
 };
+
+type Band = { ages: number[]; p3: number[]; p50: number[]; p97: number[] };
 
 type Metric = 'height' | 'weight' | 'bmi';
 const METRICS: { key: Metric; label: string; icon: string; unit: string }[] = [
@@ -107,7 +113,12 @@ export default function CurvesPage() {
         <div className="mx-3 grid grid-cols-3 gap-2 pb-4">
           <Chip icon="📏" label="预测成年身高" value={data.derived.predictedHeight ? `≈${data.derived.predictedHeight}` : '—'} sub="cm" />
           <Chip icon="🌱" label="发育阶段" value={data.derived.devStage} />
-          <Chip icon="📊" label="BMI" value={data.derived.latestBmi != null ? String(data.derived.latestBmi) : '—'} sub={data.derived.latestBmi != null ? '正常' : ''} />
+          <Chip
+            icon="📊"
+            label="BMI"
+            value={data.derived.latestBmi != null ? String(data.derived.latestBmi) : '—'}
+            sub={data.derived.bmiPercentile != null ? `P${data.derived.bmiPercentile}` : data.derived.latestBmi != null ? '正常' : ''}
+          />
         </div>
       )}
 
@@ -145,8 +156,9 @@ function buildOption(data: GrowthResp, metric: Metric): Record<string, unknown> 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const series: any[] = [];
 
-  if (metric === 'height' && data.bands?.height) {
-    const b = data.bands.height;
+  const bandSet = metric === 'height' ? data.bands?.height : metric === 'bmi' ? data.bands?.bmi : null;
+  if (bandSet) {
+    const b = bandSet;
     series.push({
       name: '正常范围', type: 'line', stack: 'range', symbol: 'none', silent: true, z: 1,
       data: b.ages.map((a, i) => [a, b.p3[i]]),
@@ -207,7 +219,7 @@ function buildOption(data: GrowthResp, metric: Metric): Record<string, unknown> 
     },
     series,
     legend: {
-      show: metric === 'height', top: 0, right: 4,
+      show: !!bandSet, top: 0, right: 4,
       textStyle: { fontSize: 9, color: '#8a6a4a' },
       itemWidth: 14, itemHeight: 8, icon: 'roundRect',
     },

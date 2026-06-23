@@ -50,16 +50,28 @@ export async function GET(_req: Request, { params }: { params: Promise<{ childId
   else if (heightTable) bandsReason = 'ok';
   else bandsReason = 'missing-data';
 
+  const ageNowMo = Math.ceil(ageMonths(birth, new Date()));
+  const capAge = (a: number) => Math.min(Math.max(a, 24), 228);
+
   let heightBands = null;
   let heightPercentile = null;
   if (heightTable && latest?.height) {
-    const maxAge = Math.max(Math.ceil(ageMonths(birth, new Date())) + 12, 24);
-    heightBands = buildBands(heightTable, 0, maxAge, 3);
+    heightBands = buildBands(heightTable, 0, capAge(ageNowMo + 24), 3);
     heightPercentile = percentileFromLmsTable(
       latest.height,
       Math.round(ageMonths(birth, latest.date)),
       heightTable,
     );
+  }
+
+  // BMI 百分位(WHO 2007,5–19 岁 = 60–228 月;性别 OTHER 或 <60 月无)
+  const bmiTable = await getLmsTable('bmi', gender);
+  let bmiBands = null;
+  let bmiPercentile = null;
+  if (bmiTable && latestBmi != null) {
+    const la = latest?.date ? Math.round(ageMonths(birth, latest.date)) : ageNowMo;
+    bmiBands = buildBands(bmiTable, 60, capAge(ageNowMo + 24), 3);
+    if (la >= 60) bmiPercentile = percentileFromLmsTable(latestBmi, la, bmiTable);
   }
 
   return NextResponse.json({
@@ -73,8 +85,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ childId
       latestWeight: latest?.weight ?? null,
       latestBmi,
       heightPercentile,
+      bmiPercentile,
     },
-    bands: { height: heightBands },
+    bands: { height: heightBands, bmi: bmiBands },
     bandsReason,
   });
 }
