@@ -14,6 +14,8 @@ docker compose up -d --build
 
 打开 `http://<服务器IP>:3000`,首次访问会引导你设置一个访问密码,然后就能用了。
 
+> ⚠️ **用 HTTP 访问(无 HTTPS/反代)时**,会话 cookie 的 `Secure` 标志必须为关,否则浏览器在 HTTP 下会丢弃 cookie,导致「设密码后无法进入」。`docker-compose.yml` 已默认 `SESSION_COOKIE_SECURE=false`,所以 compose 直接起就能用。若放在 HTTPS 反代后面,设 `SESSION_COOKIE_SECURE=true` 更安全。
+
 - 数据持久化:SQLite 文件在 `./data/dev.db`(compose 已挂载),备份就是备份这个目录。
 - 停止:`docker compose down`
 
@@ -23,6 +25,7 @@ docker compose up -d --build
 |------|------|------|
 | `SESSION_SECRET` | ✅ | 会话签名密钥,长随机串(`openssl rand -hex 32`) |
 | `APP_PASSWORD` | ❌ | 预设访问密码;不设则首次打开 App 引导设置 |
+| `SESSION_COOKIE_SECURE` | ⚠️ | 会话 cookie 是否仅 HTTPS。**纯 HTTP 访问必须设 `false`,否则「设密码/登录后无法进入」**;HTTPS 下建议 `true`(默认)。docker-compose 默认 `false`。 |
 | `DATABASE_URL` | — | 运行时固定 `file:/app/data/dev.db`,无需改 |
 | `S3_*` | ❌ | 见下;全不配则图片功能关闭(UI 显示「不可用」),身高体重照常记录 |
 

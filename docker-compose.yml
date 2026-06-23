@@ -10,6 +10,8 @@ services:
       SESSION_SECRET: ${SESSION_SECRET:-please-change-this-to-a-long-random-string-32+}
       # 可选:预设访问密码(留空则首次打开 App 时引导设置)
       APP_PASSWORD: ${APP_PASSWORD:-}
+      # HTTP 访问(无 HTTPS/反代)必须 false,否则登录后无法进入;HTTPS 下建议 true
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
       # 可选:S3 图片存储(全部留空 = 图片功能关闭,UI 显示「不可用」)
       S3_ENDPOINT: ${S3_ENDPOINT:-}
       S3_REGION: ${S3_REGION:-}

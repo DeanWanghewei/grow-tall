@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: "file:./ci.db"
+      SESSION_SECRET: "ci-not-a-real-secret-just-for-build-xxxxxxxxxx"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - run: npm run lint
+
+      - run: npm test
+
+      - name: Build
+        run: npm run build
