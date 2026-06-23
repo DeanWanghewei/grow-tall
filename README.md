@@ -25,13 +25,14 @@
 
 <p align="center">
 <img src="docs/screenshots/home.png" width="220" alt="首页 · 成长墙" />
-<img src="docs/screenshots/curves.png" width="220" alt="成长曲线" />
+<img src="docs/screenshots/curves.png" width="220" alt="成长曲线 · WHO 百分位" />
 <img src="docs/screenshots/record.png" width="220" alt="记一笔" />
 <img src="docs/screenshots/settings.png" width="220" alt="设置 · 主题切换" />
 <img src="docs/screenshots/album.png" width="220" alt="时光相册" />
+<img src="docs/screenshots/slideshow.png" width="220" alt="成长墙幻灯片" />
 </p>
 
-> 首页「成长墙」(长颈鹿随身高长高)· 成长曲线 · 记一笔弹层 · 设置/多主题切换 · 时光相册。更多设计草图见 [`docs/design/`](docs/design/)。
+> 首页成长墙(长颈鹿随身高长高)· 成长曲线(WHO 百分位带)· 记一笔 · 设置/多主题 · 时光相册 · 成长墙幻灯片(照片按身高贴墙、上下穿越时光)。更多设计草图见 [`docs/design/`](docs/design/)。
 
 ---
 
