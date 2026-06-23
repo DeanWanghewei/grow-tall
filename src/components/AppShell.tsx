@@ -20,15 +20,22 @@ export function AppShell({
 }) {
   const path = usePathname();
   return (
-    <div className="min-h-[100dvh] flex flex-col" style={{ background: 'var(--bg)' }}>
-      <main className="flex-1 overflow-y-auto" style={{ paddingTop: 'var(--safe-top)' }}>
+    <div className="min-h-[100dvh]" style={{ background: 'var(--bg)' }}>
+      <main
+        style={{
+          paddingTop: 'var(--safe-top)',
+          // 给固定的底部导航栏 + 凸起按钮留出空间,避免末尾内容被遮挡
+          paddingBottom: 'calc(var(--safe-bottom) + 96px)',
+        }}
+      >
         {children}
       </main>
       <nav
-        className="relative grid grid-cols-[1fr_1fr_72px_1fr_1fr] items-end bg-white"
+        className="fixed bottom-0 left-0 right-0 grid grid-cols-[1fr_1fr_72px_1fr_1fr] items-end bg-white"
         style={{
           borderTop: '3px dashed #FFE3CC',
           paddingBottom: 'var(--safe-bottom)',
+          zIndex: 40,
         }}
       >
         {TABS.slice(0, 2).map((t) => (
@@ -46,6 +53,7 @@ export function AppShell({
             // 用 framer 的 x 而非 Tailwind 的 -translate-x-1/2,避免被 animate 的 transform 覆盖导致不居中
             x: '-50%',
             bottom: 'calc(var(--safe-bottom) + 16px)',
+            zIndex: 50,
             background: 'linear-gradient(135deg, var(--primary-2), var(--primary))',
             boxShadow:
               '0 6px 0 color-mix(in srgb, var(--primary) 70%, black), 0 12px 18px rgba(0,0,0,.2)',

@@ -52,7 +52,10 @@ export function RecordSheetProvider({ children }: { children: ReactNode }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="absolute inset-0 bg-black/40" onClick={() => setChildId(null)} />
+            <div
+              className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+              onClick={() => setChildId(null)}
+            />
             <motion.div
               className="absolute left-0 right-0 bottom-0 rounded-t-3xl p-4 pb-7"
               style={{ background: 'var(--bg)', paddingBottom: 'calc(var(--safe-bottom) + 20px)' }}
@@ -65,32 +68,35 @@ export function RecordSheetProvider({ children }: { children: ReactNode }) {
                 className="mx-auto mb-3 h-1.5 w-10 rounded-full"
                 style={{ background: 'var(--muted)', opacity: 0.4 }}
               />
-              <h3 className="text-center text-lg font-extrabold" style={{ color: 'var(--ink)' }}>
-                记一笔
-              </h3>
-              <label className="mb-1 mt-3 block text-xs font-bold" style={{ color: 'var(--muted)' }}>
-                身高
+              <div className="mb-3 flex items-center justify-center gap-2">
+                <span className="text-2xl">🦒</span>
+                <h3 className="text-lg font-extrabold" style={{ color: 'var(--ink)' }}>
+                  记一笔
+                </h3>
+              </div>
+              <label className="mb-1 block text-xs font-bold" style={{ color: 'var(--muted)' }}>
+                📏 身高
               </label>
               <input
                 aria-label="身高"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
                 inputMode="decimal"
-                placeholder="cm"
-                className="w-full rounded-xl px-3 py-2"
-                style={{ background: 'var(--card)', color: 'var(--ink)' }}
+                placeholder="例如 115.2"
+                className="w-full rounded-xl border-2 border-dashed px-4 py-3 text-center text-lg font-bold outline-none"
+                style={{ background: 'var(--card)', borderColor: 'var(--primary-2)', color: 'var(--ink)' }}
               />
               <label className="mb-1 mt-3 block text-xs font-bold" style={{ color: 'var(--muted)' }}>
-                体重
+                ⚖️ 体重
               </label>
               <input
                 aria-label="体重"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 inputMode="decimal"
-                placeholder="kg"
-                className="w-full rounded-xl px-3 py-2"
-                style={{ background: 'var(--card)', color: 'var(--ink)' }}
+                placeholder="例如 21.5"
+                className="w-full rounded-xl border-2 border-dashed px-4 py-3 text-center text-lg font-bold outline-none"
+                style={{ background: 'var(--card)', borderColor: 'var(--primary-2)', color: 'var(--ink)' }}
               />
               <button
                 onClick={save}
