@@ -25,7 +25,13 @@ describe('RecordSheet', () => {
     fireEvent.change(screen.getByLabelText('体重'), { target: { value: '21.5' } });
     fireEvent.click(screen.getByText(/保存/));
 
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2)); // open GET + save POST
+    // 等待「保存」的 POST 请求出现(不依赖精确调用次数:open/PhotoInput 挂载也会发请求)
+    await waitFor(() => {
+      const has = (
+        fetchMock.mock.calls as unknown as [string, RequestInit | undefined][]
+      ).some(([, init]) => init?.method === 'POST');
+      expect(has).toBe(true);
+    });
     const saveCall = (
       fetchMock.mock.calls as unknown as [string, RequestInit | undefined][]
     ).find(([, init]) => init?.method === 'POST');
