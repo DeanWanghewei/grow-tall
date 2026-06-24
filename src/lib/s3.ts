@@ -1,5 +1,4 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { storageConfig, isStorageConfigured } from './storage';
 
 export function isPhotoUploadEnabled(): boolean {
@@ -18,17 +17,37 @@ function getClient() {
   });
 }
 
-/** 生成预签名 PUT URL,浏览器直传(不经服务器中转)。 */
-export async function presignPut(key: string, contentType: string): Promise<string> {
+/**
+ * 服务端上传到 S3(不再把 S3 暴露给前端)。
+ * 内网 S3 场景下,前端只需能访问本服务,由本服务代理读写。
+ */
+export async function putObject(key: string, body: Uint8Array, contentType: string): Promise<void> {
   const c = storageConfig();
-  const cmd = new PutObjectCommand({ Bucket: c.bucket, Key: key, ContentType: contentType });
-  return getSignedUrl(getClient(), cmd, { expiresIn: 300 });
+  await getClient().send(
+    new PutObjectCommand({ Bucket: c.bucket, Key: key, Body: body, ContentType: contentType }),
+  );
 }
 
-/** 照片的可访问 URL。优先 publicBase,否则拼 endpoint/bucket/key(path-style)。 */
-export function publicUrl(key: string): string {
+/**
+ * 服务端从 S3 读取对象,返回可流式转发给浏览器的 Web Stream。
+ * 前端通过 /api/photos/[id]/file 代理访问,不直连 S3。
+ */
+export async function readObject(
+  key: string,
+): Promise<{ stream: ReadableStream; contentType: string; contentLength?: number } | null> {
   const c = storageConfig();
-  if (c.publicBase) return `${c.publicBase.replace(/\/$/, '')}/${key}`;
-  const base = c.endpoint.replace(/\/$/, '');
-  return `${base}/${c.bucket}/${key}`;
+  try {
+    const data = await getClient().send(new GetObjectCommand({ Bucket: c.bucket, Key: key }));
+    const body = data.Body as unknown as {
+      transformToWebStream?: () => ReadableStream;
+    };
+    const stream = body.transformToWebStream ? body.transformToWebStream() : (data.Body as unknown as ReadableStream);
+    return {
+      stream,
+      contentType: data.ContentType || 'application/octet-stream',
+      contentLength: data.ContentLength,
+    };
+  } catch {
+    return null;
+  }
 }
